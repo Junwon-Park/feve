@@ -3,6 +3,6 @@ const router = express.Router();
 
 const { auth } = require('../../controller/auth/auth.js');
 
-router.get('/', auth);
+router.get('/checktoken', auth);
 
 module.exports = router;
