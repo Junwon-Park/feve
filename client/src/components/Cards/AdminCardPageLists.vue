@@ -6,7 +6,7 @@
       <div class="flex flex-wrap items-center">
         <div class="relative w-full px-4 max-w-full flex-grow flex-1">
           <h3 class="font-semibold text-base text-blueGray-700">
-            상품 리스트
+            {{ title }}
           </h3>
         </div>
         <div
@@ -81,67 +81,31 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <th
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center"
-          >
-            1
-          </th>
-          <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center"
-          >
-            Lego Firehouse Headquarters <br>
-            레고 고스트 버스터즈 소방본부
-          </td>
-          <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center"
-          >
-            Lego
-          </td>
-          <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center"
-          >
-            550,000
-          </td>
-          <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center"
-          >
-            Architecture
-          </td>
-          <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center"
-          >
-            50
-          </td>
-          <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center"
-          >
-            5
-          </td>
-          <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center"
-          >
-            1
-          </td>
-          <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center"
-          >
-            3
-          </td>
-          <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-center"
-          >
-            <button
-                class="bg-orange-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button"
-            >
-              자세히 보기
-            </button>
-          </td>
-        </tr>
-
+          <AdminCards v-for="(item, idx) in items" :key="idx" v-bind="item"  />
         </tbody>
       </table>
     </div>
   </div>
 </template>
+
+<script>
+import AdminCards from "@/components/Cards/AdminCards.vue";
+export default {
+  props: {
+    title: {
+      type: String,
+      default: "리스트",
+    },
+    items: {
+      required: true
+    }
+},
+  data() {
+    return {
+    }
+  },
+  components: {
+    AdminCards,
+  },
+}
+</script>

@@ -1,7 +1,7 @@
 const { Product } = require("../../models");
 const db = require("../../models");
 
-async function addproduct(req, res, next) {
+async function cscenter(req, res, next) {
     const product_name= req.body.product_name;
     const product_brand= req.body.product_brand;
     const product_mnum= req.body.product_mnum;
@@ -32,4 +32,4 @@ async function addproduct(req, res, next) {
         .catch(err => console.log(err));
 }
 
-module.exports = { addproduct };
+module.exports = { cscenter };

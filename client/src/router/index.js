@@ -15,10 +15,14 @@ import Settings from "@/views/admin/Settings.vue";
 import Tables from "@/views/admin/Tables.vue";
 import Maps from "@/views/admin/Maps.vue";
 import AddProduct from "@/views/admin/AddProduct.vue";
+import ProductList from "@/views/admin/ProductList.vue";
+import CscenterList from "@/views/admin/CscenterList.vue";
 
 // views for Auth layout
 import Login from "@/views/auth/Login.vue";
 import Register from "@/views/auth/Register.vue";
+
+import Mypage from "@/views/mypage/Mypage.vue";
 
 // views without layouts
 import Index from "@/views/Index.vue";
@@ -29,7 +33,7 @@ import List3 from "@/views/List3.vue";
 import Write from "@/views/Write.vue";
 
 import Shoplist from "@/views/shop/Shoplist.vue";
-
+import Sold from "@/views/sold/Sellpage.vue"
 
 
 
@@ -39,6 +43,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/admin",
+    name:'admin',
     redirect: "/admin/dashboard",
     component: Admin,
     children: [
@@ -58,6 +63,14 @@ const routes = [
         path: "/admin/maps",
         component: Maps,
       },
+      {
+        path: "/admin/productList",
+        component: ProductList,
+      },
+      {
+        path: "/admin/cscenterList",
+        component: CscenterList,
+      },
     ],
   },
   {
@@ -74,6 +87,10 @@ const routes = [
         component: Register,
       },
     ],
+  },
+  {
+    path: "/mypage",
+    component: Mypage,
   },
   {
     path: "/",
@@ -100,10 +117,12 @@ const routes = [
     component: Write,
   },
   {
-
+    path: "/sold",
+    component: Sold,
+  },
+  {
     path: "/admin/addProduct",
     component: AddProduct,
-  
   },
   
   {

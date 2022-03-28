@@ -32,7 +32,7 @@
         </div>
       </section>
       <section class="relative py-16 bg-blueGray-200">
-        <div class="container mx-auto px-4">
+        <div class="">
           <div
             class="p-8 relative flex flex-col min-w-0 break-words  pd-8 bg-white w-full mb-6 shadow-xl rounded-lg -mt-64"
           >
@@ -43,63 +43,39 @@
           </div>
           <div class="flex flex-wrap items-center mt-5 mb-5 px-6">
             <div class="relative w-full max-w-full flex-grow flex-1 text-right">
-              <h6 class="uppercase  inline-block text-blueGray-400 mb-1 text-xs font-semibold">
-                카테고리
-              </h6>
-              <!-- <h5 class="text-blueGray-500 mx-4 inline-block text-xl font-semibold ">
-                LEGO
-              </h5>
-              <h5 class="text-blueGray-500 inline-block text-xl font-semibold">
-                BEARBRICK
-              </h5> -->
                <div class="text-center">
     <v-chip
       class="ma-2"
     >
-      Default
+      전체
     </v-chip>
 
     <v-chip
       class="ma-2"
       color="primary"
     >
-      Primary
+      레고
     </v-chip>
 
     <v-chip
       class="ma-2"
       color="secondary"
     >
-      Secondary
+      베어브릭
     </v-chip>
 
-    <v-chip
-      class="ma-2"
-      color="red"
-      text-color="white"
-    >
-      Red Chip
-    </v-chip>
-
-    <v-chip
-      class="ma-2"
-      color="green"
-      text-color="white"
-    >
-      Green Chip
-    </v-chip>
   </div>
             </div>
           </div>
           <hr />
           
-          <div class="flex">
-            <div class="flex w-auto px-4 mb-5">
+          <div class="flex mt-5">
+            <div class="flex w-full lg:w-3/12 px-4 mb-5">
               <Category />
             </div>
             <div class="w-full px-4 mb-5 flex flex-wrap">
               <div class="w-full lg:w-6/12 xl:w-3/12 px-4 mb-5" v-for="item in items" :key="item.seq">
-                <card-stats v-bind="item" />
+                <ProductCards v-bind="item" />
               </div>
             </div>
           </div>
@@ -110,15 +86,10 @@
   </div>
 </template>
 <script>
-import CardStats from "@/components/Cards/CardStats.vue";
+import ProductCards from "@/components/Cards/ProductCards.vue";
 import team2 from "@/assets/img/team-2-800x800.jpg";
 import legoBg from "@/assets/img/bg-lego5.jpg";
-import itemPic1 from "@/assets/img/product-lego1.jpg";
-import itemPic2 from "@/assets/img/product-lego2.jpg";
-import itemPic3 from "@/assets/img/product-lego3.jpg";
-import itemPic4 from "@/assets/img/product-lego4.jpg";
 
-// import Filter from "./Filter.vue";
 import Category from './Category';
 
 export default {
@@ -126,73 +97,32 @@ export default {
     return {
       team2,
       legoBg,
-      itemPic1,
-      itemPic2,
-      itemPic3,
-      itemPic4,
       items: [
         {
-          seq:1,
-          productPic: itemPic1,
-          statSubtitle: "월e",
-          statTitle:"230,000",
-          statArrow:"up",
-          statPercent:"12",
-          statPercentColor:"text-emerald-500",
-          statDescripiron:"Since last month",
-        }, {
-          seq:2,
-          productPic: itemPic2,
-          statSubtitle: "PERFORMANCE",
-          statTitle:"530,000",
-          statArrow:"up",
-          statPercent:"10",
-          statPercentColor:"text-emerald-500",
-          statDescripiron:"Since last month",
-        }, {
-          seq:3,
-          productPic: itemPic3,
-          statSubtitle: "아키텍처",
-          statTitle:"930,000",
-          statArrow:"up",
-          statPercent:"19",
-          statPercentColor:"text-emerald-500",
-          statDescripiron:"Since last month",
-        }, {
-          seq:4,
-          productPic: this.itemPic4,
-          statSubtitle: "PERFORMANCE",
-          statTitle:"49,65%",
-          statArrow:"up",
-          statPercent:"12",
-          statPercentColor:"text-emerald-500",
-          statDescripiron:"Since last month",
-        }, {
-          seq:5,
-          productPic: itemPic1,
-          statSubtitle: "PERFORMANCE",
-          statTitle:"49,65%",
-          statArrow:"up",
-          statPercent:"12",
-          statPercentColor:"text-emerald-500",
-          statDescripiron:"Since last month",
-        }, {
-          seq:6,
-          productPic: itemPic2,
-          statSubtitle: "PERFORMANCE",
-          statTitle:"49,65%",
-          statArrow:"up",
-          statPercent:"12",
-          statPercentColor:"text-emerald-500",
-          statDescripiron:"Since last month",
-        },
+          PRODUCT_KEY:'',
+          PRODUCT_PIC:'',
+          PRODUCT_NAME: '',
+          PRODUCT_BRAND: '',
+          PRODUCT_CATE: '',
+          PRODUCT_ORIPRICE: 0,
+        }
       ]
     };
   },
   components: {
-    CardStats,
-    // Filter,
+    ProductCards,
     Category
   },
+  created() {
+    let that = this;
+    this.$axios.get('http://localhost:8080/shop/shoplist')
+        .then(function(res){
+          console.log(res);
+          that.items = res.data;
+        })
+        .catch(function(err){
+          console.log(err);
+        });
+  }
 };
 </script>

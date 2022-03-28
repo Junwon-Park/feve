@@ -14,13 +14,20 @@ module.exports = (sequelize, DataTypes) => {
   }
   Category.init(
     {
+      CATEGORY_KEY: {
+        type: DataTypes.BIGINT,
+        primaryKey: true
+      },
       CATEGORY_PARENT: DataTypes.STRING(3),
       CATEGORY_NAME: DataTypes.STRING(20),
       CATEGORY_DESC: DataTypes.STRING(20)
     },
     {
       sequelize,
-      modelName: 'Category'
+      modelName: 'Category',
+      timestamps: false,
+      freezeTableName: true,
+      tableName : "Category"
     }
   );
   return Category;
