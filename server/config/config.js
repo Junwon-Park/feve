@@ -6,7 +6,8 @@ const development = {
   password: env.DB_PASSWORD,
   database: env.DB_DATABASE,
   host: env.DB_HOST,
-  dialect: env.DB_RDBMS
+  dialect: env.DB_RDBMS,
+  timezone: 'Asia/Seoul' // 'Asia/Seoul'지역 기준 시간 적용
 };
 
 const production = {
