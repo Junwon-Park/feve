@@ -10,28 +10,35 @@ const login = async (req, res) => {
   const checkUser = await User.findOne({
     where: { USER_ID }
   });
-  // Decoded hash
-  const decodedResult = await bcrypt.compare(
-    USER_PASSWORD,
-    checkUser.USER_PASSWORD
-  );
-
-  if (!decodedResult)
-    res
-      .status(403) // Unauthorized
-      .json({ data: null, message: 'Not authorized' });
+  if (!checkUser)
+    res.status(403).json({ data: null, message: 'Invalid user!!!' });
   else {
-    const accessToken = await genAccToken(checkUser);
-    const refeshToken = await genRefToken(checkUser);
+    // Decoded hash
+    const decodedResult = await bcrypt.compare(
+      USER_PASSWORD,
+      checkUser.USER_PASSWORD
+    );
 
-    res
-      .cookie('refreshToken', refeshToken, {
-        httpOnly: true,
-        sameSite: 'None',
-        secure: true,
-        maxAge: 72 * 60 * 60 * 10000 // 30d
-      })
-      .json({ data: { accessToken }, message: 'Login successed!!!' });
+    if (!decodedResult)
+      res
+        .status(403) // Unauthorized
+        .json({ data: null, message: 'Not authorized' });
+    else {
+      const accessToken = await genAccToken(checkUser);
+      const refreshToken = await genRefToken(checkUser);
+
+      res
+        .cookie('refreshToken', refreshToken, {
+          httpOnly: true,
+          sameSite: 'None',
+          secure: true,
+          maxAge: 72 * 60 * 60 * 10000 // 30d
+        })
+        .json({
+          data: { accessToken, USER_ID },
+          message: 'Login successed!!!'
+        });
+    }
   }
 };
 
