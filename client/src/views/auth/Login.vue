@@ -105,17 +105,39 @@ export default {
   },
   methods: {
     async submitLogin() {
-      const userData = await axios.post(
-        `${this.baseURL}/auth/login`,
-        { USER_ID: this.inputId, USER_PASSWORD: this.inputPw },
-        {
-          withCredentials: true,
-          headers: { Authorization: `Bearer ${this.accessToken}` }
-        }
-      );
-      this.accessToken = userData.data.data.accessToken;
-      this.isLogin = true;
+      const userData = await axios
+        .post(
+          `${this.baseURL}/auth/login`,
+          { USER_ID: this.inputId, USER_PASSWORD: this.inputPw },
+          {
+            withCredentials: true,
+            headers: { Authorization: `Bearer ${this.accessToken}` }
+          }
+        )
+        .catch((err) => {
+          // Login failed
+          console.error('Error!!!', err);
+          alert('로그인에 실패했습니다.');
+          this.accessToken = null;
+          this.isLogin = false;
+          console.log(this.accessToken);
+          console.log(this.isLogin);
+          return location.reload();
+        });
+
+      if (userData) {
+        // Login successed
+        this.accessToken = userData.data.data.accessToken;
+        localStorage.setItem('Authorization', this.accessToken);
+        this.isLogin = true;
+        console.log(this.accessToken);
+        console.log(this.isLogin);
+      }
     }
+  },
+  mounted() {
+    console.log(localStorage.getItem('Authorization'));
+    console.log(this.isLogin);
   }
 };
 </script>
