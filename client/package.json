@@ -16,6 +16,7 @@
     "axios": "^0.26.1",
     "chart.js": "^3.7.1",
     "core-js": "^3.6.5",
+    "dotenv": "^16.0.0",
     "gulp": "^4.0.2",
     "gulp-append-prepend": "^1.0.9",
     "roboto-fontface": "^0.10.0",
