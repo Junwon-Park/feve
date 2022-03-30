@@ -88,8 +88,6 @@
 import github from '@/assets/img/github.svg';
 import google from '@/assets/img/google.svg';
 import axios from 'axios';
-import dotenv from 'dotenv';
-dotenv.config();
 
 export default {
   data() {

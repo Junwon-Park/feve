@@ -6,6 +6,7 @@ const {
 const { User } = require('../../models');
 
 const auth = async (req, res) => {
+  console.log(req.headers.cookie);
   if (!req.headers.authorization.split(' ')[1]) {
     if (!req.headers.cookie) {
       res.status(403).json({ data: null, message: 'Not authorized' });
