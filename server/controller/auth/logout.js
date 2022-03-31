@@ -1,5 +1,3 @@
-const jwt = require('jsonwebtoken');
-
 const logout = async (req, res) => {
   res
     .cookie('refreshToken', null, {
