@@ -12,7 +12,7 @@
           <span
             class="text-blueGray-800 text-4xl font-bold italic leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase"
           >
-            Notus
+            FEVE
           </span>
         </router-link>
         <button
@@ -57,7 +57,7 @@
               </span>
             </router-link>
           </li>
-          <li class="flex items-center">
+          <li class="flex items-center" v-if="$store.state.isLogin">
             <router-link to="/profile">
               <span
                 class="text-blueGray-800 px-3 py-2 flex items-center text-xs uppercase"
@@ -66,7 +66,7 @@
               </span>
             </router-link>
           </li>
-          <li class="flex items-center">
+          <li class="flex items-center" v-if="$store.state.isLogin">
             <router-link to="/list2">
               <span
                 class="text-blueGray-800 px-3 py-2 flex items-center text-xs uppercase"
@@ -76,8 +76,7 @@
             </router-link>
           </li>
           <li class="flex items-center" v-if="$store.state.isLogin">
-            <span
-              class="text-blueGray-800 px-3 py-2 flex items-center text-xs uppercase"
+            <span class="text-blueGray-800 px-3 py-2 flex items-center text-xs"
               ><span style="font-weight: bold; font-size: 1rem">{{
                 $store.state.userId
               }}</span>
@@ -146,6 +145,7 @@ export default {
       const accessToken = logout.data.data;
       localStorage.setItem('isLogin', false);
       localStorage.setItem('Authorization', accessToken);
+      localStorage.setItem('userId', null);
       location.href = `${this.clientBaseURL}`;
     },
     async checkToken() {
