@@ -97,8 +97,7 @@ export default {
       inputId: '',
       inputPw: '',
       baseURL: 'http://localhost:8080',
-      isLogin: false,
-      accessToken: ''
+      clientBaseURL: 'http://localhost:3000'
     };
   },
   methods: {
@@ -114,28 +113,24 @@ export default {
         )
         .catch((err) => {
           // Login failed
-          console.error('Error!!!', err);
+          console.error('Login failed!!!', err);
           alert('로그인에 실패했습니다.');
-          this.accessToken = null;
-          this.isLogin = false;
-          console.log(this.accessToken);
-          console.log(this.isLogin);
+          localStorage.setItem('Authorization', null);
+          localStorage.setItem('isLogin', false);
           return location.reload();
         });
 
       if (userData) {
         // Login successed
-        this.accessToken = userData.data.data.accessToken;
-        localStorage.setItem('Authorization', this.accessToken);
-        this.isLogin = true;
-        console.log(this.accessToken);
-        console.log(this.isLogin);
+        localStorage.setItem('Authorization', userData.data.data.accessToken);
+        localStorage.setItem('isLogin', true);
+        localStorage.setItem('userId', userData.data.data.USER_ID);
+        return (location.href = `${this.clientBaseURL}`);
       }
     }
   },
   mounted() {
-    console.log(localStorage.getItem('Authorization'));
-    console.log(this.isLogin);
+    console.log(this.$store.state.isLogin);
   }
 };
 </script>
