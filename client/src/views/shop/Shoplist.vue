@@ -32,7 +32,7 @@
         </div>
       </section>
       <section class="relative py-16 bg-blueGray-200">
-        <div class="">
+        <div class="container">
           <!-- <v-form ref="form" @submit.prevent="send"> -->
           <div
             class="p-8 relative flex flex-col min-w-0 break-words  pd-8 bg-white w-full mb-6 shadow-xl rounded-lg -mt-64"
@@ -71,7 +71,7 @@
   </div>
 </template>
 <script>
-import ProductCards from "@/components/Cards/ProductCards.vue";
+import ProductCards from "@/components/Cards/Shop/ProductCards.vue";
 import team2 from "@/assets/img/team-2-800x800.jpg";
 import legoBg from "@/assets/img/bg-lego5.jpg";
 import productLego1 from "@/assets/img/product-lego1.jpg";

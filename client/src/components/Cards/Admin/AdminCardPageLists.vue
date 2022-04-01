@@ -44,10 +44,10 @@
               :items="items"
               @sendDialog="cDialog"
               @sendItems="sendItems"
-              @sendDeleteItem="sendDeleteItem"/>
+              @sendDeleteItem="sendDeleteItem"
+              @sendUndoDeleteItem="sendUndoDeleteItem" />
         </tbody>
       </table>
-      <Pagination />
     </div>
     <AdminProductModi
         :dialog="recDialog"
@@ -62,7 +62,6 @@
 
 <script>
 import AdminCards from "@/components/Cards/Admin/AdminCards.vue";
-import Pagination from "@/components/Pagination.vue" ;
 import AdminProductModi from "@/components/Cards/Admin/AdminProductModi.vue";
 export default {
   props: {
@@ -98,14 +97,13 @@ export default {
         PRODUCT_CATE: "",
         PRODUCT_BRAND: "",
         PRODUCt_LDATE: "",
-        PRODUCT_DELETE: 0,
+        PRODUCT_DELETE: '0',
       }
     }
   },
   components: {
     AdminCards,
     AdminProductModi,
-    Pagination
   },
   methods: {
     sendItems(recP, recM) {
@@ -129,6 +127,21 @@ export default {
       that.receivedMnum = recM;
 
       this.$axios.post('http://localhost:8080/admin/deleteProduct', {
+        sendProductKey: that.receivedProductKey,
+        sendMnum: that.receivedMnum,
+      }).then(function (res) {
+        that.item = res.data[0];
+      }).catch(function (err) {
+        console.log(err);
+      });
+    },
+
+    sendUndoDeleteItem(recP, recM) {
+      let that = this;
+      that.receivedProductKey = recP;
+      that.receivedMnum = recM;
+
+      this.$axios.post('http://localhost:8080/admin/deleteProduct/undo', {
         sendProductKey: that.receivedProductKey,
         sendMnum: that.receivedMnum,
       }).then(function (res) {

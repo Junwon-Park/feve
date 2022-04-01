@@ -175,11 +175,13 @@
                 우편번호
               </label>
               <input
+                id="postcode"
                 type="text"
                 class="postCode border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                 placeholder="우편 번호를 입력하세요."
                 readonly
               />
+              <h1>한국어{{ USER_PASSWORD }}</h1>
             </div>
           </div>
         </div>
@@ -249,6 +251,7 @@ export default {
         alert('회원가입이 완료되었습니다.');
       }
       return (location.href = `${this.clientBaseURL}`);
+
     }
   }
 };
