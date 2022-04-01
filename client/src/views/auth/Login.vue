@@ -128,9 +128,6 @@ export default {
         return (location.href = `${this.clientBaseURL}`);
       }
     }
-  },
-  mounted() {
-    console.log(this.$store.state.isLogin);
   }
 };
 </script>

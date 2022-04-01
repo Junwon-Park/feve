@@ -765,7 +765,6 @@ export default {
     }
   },
   created() {
-    console.log('created!!!');
     this.checkToken();
   },
   components: {}
