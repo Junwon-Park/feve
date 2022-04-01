@@ -147,10 +147,6 @@ export default {
       localStorage.setItem('Authorization', accessToken);
       localStorage.setItem('userId', null);
       location.href = `${this.clientBaseURL}`;
-    },
-    async checkToken() {
-      const checkResult = await axios.get(`${this.baseURL}/auth/checktoken`);
-      console.log(checkResult);
     }
   },
   components: {

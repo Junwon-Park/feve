@@ -10,7 +10,7 @@
               Your FIRST RESELL<br />starts with us.
             </h2>
             <p class="mt-4 text-lg leading-relaxed text-blueGray-500">
-              첫 리셀을 Notus와 시작해보세요.
+              첫 리셀을 FEVE와 시작해보세요.
             </p>
             <div class="mt-12">
               <router-link to="">
@@ -730,6 +730,7 @@ import documentation from '@/assets/img/documentation.png';
 import login from '@/assets/img/login.jpg';
 import profile from '@/assets/img/profile.jpg';
 import landing from '@/assets/img/landing.jpg';
+import axios from 'axios';
 
 export default {
   data() {
@@ -744,8 +745,28 @@ export default {
       documentation,
       login,
       profile,
-      landing
+      landing,
+      baseURL: 'http://localhost:8080'
     };
+  },
+  methods: {
+    async checkToken() {
+      const checkResult = await axios
+        .get(`${this.baseURL}/auth/checktoken`, { withCredentials: true })
+        .catch((err) => {
+          console.error('Invalid user!!!', err);
+          localStorage.setItem('isLogin', false);
+          localStorage.setItem('userId', null);
+        });
+      if (checkResult) {
+        const accessToken = checkResult.data.data.accessToken;
+        localStorage.setItem('Authorization', accessToken);
+      }
+    }
+  },
+  created() {
+    console.log('created!!!');
+    this.checkToken();
   },
   components: {}
 };
