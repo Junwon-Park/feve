@@ -17,6 +17,7 @@ import Maps from "@/views/admin/Maps.vue";
 import AddProduct from "@/views/admin/AddProduct.vue";
 import ProductList from "@/views/admin/ProductList.vue";
 import CscenterList from "@/views/admin/CscenterList.vue";
+import InspectionList from "@/views/admin/InspectionList.vue";
 
 // views for Auth layout
 import Login from "@/views/auth/Login.vue";
@@ -33,7 +34,14 @@ import List3 from "@/views/List3.vue";
 import Write from "@/views/Write.vue";
 
 import Shoplist from "@/views/shop/Shoplist.vue";
+import Shopview from "@/views/shop/Shopview.vue";
 import Sold from "@/views/sold/Sellpage.vue"
+import Soldproc from "@/views/sold/Sellconfirmpage.vue";
+import Cscenter from "@/views/cscenter/Cscenter.vue";
+import CscenterNotice from "@/views/cscenter/CscenterNotice.vue";
+import CscenterQna from "@/views/cscenter/CscenterQna.vue";
+
+
 
 
 
@@ -70,6 +78,10 @@ const routes = [
       {
         path: "/admin/cscenterList",
         component: CscenterList,
+      },
+      {
+        path: "/admin/inspectionList",
+        component: InspectionList,
       },
     ],
   },
@@ -121,6 +133,10 @@ const routes = [
     component: Sold,
   },
   {
+    path: "/sold/proc",
+    component: Soldproc,
+  },
+  {
     path: "/admin/addProduct",
     component: AddProduct,
   },
@@ -130,6 +146,29 @@ const routes = [
     component: Shoplist,
 
   },
+
+  {
+    path: "/shopview",
+    component: Shopview,
+
+  },
+
+  {
+    path: "/cscenter",
+    component: Cscenter,
+
+  },
+  {
+    path: "/cscenterNotice",
+    component: CscenterNotice,
+
+  },
+  {
+    path: "/cscenterQna",
+    component: CscenterQna,
+
+  },
+ 
   { path: "/:pathMatch(.*)*", redirect: "/" },
 ];
 

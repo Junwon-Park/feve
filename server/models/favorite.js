@@ -9,17 +9,25 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.Favorite.belongsTo(models.Product);
-      models.Favorite.belongsTo(models.User);
+      models.Favorite.belongsTo(models.Product, {foreignKey: "PRODUCT_KEY", targetKey:'PRODUCT_KEY'});
+      models.Favorite.belongsTo(models.User, {foreignKey: "USER_KEY", targetKey:'USER_KEY'});
     }
   }
   Favorite.init(
     {
-      FAVORITE_KEY: DataTypes.BIGINT
+      FAVORITE_KEY: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+      }
     },
     {
       sequelize,
-      modelName: 'Favorite'
+      modelName: 'Favorite',
+      freezeTableName: true,
+      timestamps: false,
+      tableName : "Favorite"
     }
   );
   return Favorite;

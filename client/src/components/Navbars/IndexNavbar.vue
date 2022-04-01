@@ -12,7 +12,8 @@
           <span
             class="text-blueGray-800 text-4xl font-bold italic leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase"
           >
-            FEVE
+
+          F E V E
           </span>
         </router-link>
         <button
@@ -104,13 +105,13 @@
             </router-link>
           </li>
           <li class="lg flex items-center">
-            <router-link to="/list">
-              <span
-                class="text-blueGray-800 px-3 py-2 flex items-center text-lg uppercase font-bold"
-                href="/list"
-              >
-                <span class="lg inline-block ml-2">고객센터</span>
-              </span>
+            <router-link to="/Cscenter">
+             <span
+              class=" text-blueGray-800 px-3 py-2 flex items-center text-lg uppercase font-bold"
+              href="/cscenter/Cscenter"
+            >
+              <span class="lg inline-block ml-2">고객센터</span>
+            </span>
             </router-link>
           </li>
         </ul>

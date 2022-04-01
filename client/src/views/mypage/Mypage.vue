@@ -1,30 +1,29 @@
 <template>
   <div class="mt-7rem ml-14rem">
-    <MypageSidebar :currentViewState="currentViewState" @onViewStateChanged="onViewStateChanged"/>
-      <div v-if= "currentViewState === 0">
-        <CardLineChart/>
-        <h1>{{currentViewState}}</h1>
-      </div>
-      <div v-else-if= "currentViewState === 1">
-        <CardTable/>
-        <h1>{{currentViewState}}</h1>
-      </div>
-      <div v-else>
-        <CardLineChart/>
-        <h1>{{currentViewState}}</h1>
-      </div>
+    <mypage-sidebar :currentViewState="currentViewState" @onViewStateChanged="onViewStateChanged"/>
+
+    <div style="margin-left: 13rem;" class="sm:mt-40 md:mt-40">
+        <mypage-main v-if= "currentViewState === 0"/>
+
+        <mypage-buy-list v-else-if= "currentViewState === 1"
+        style="margin:auto; max-width:80%; margin-bottom:10%;" />
+        
+        <CardLineChart v-else/>
+    </div>
   </div>
 </template>
 <script>
 import MypageSidebar from "@/components/Sidebar/MypageSidebar.vue";
 import CardLineChart from "@/components/Cards/CardLineChart.vue";
-import CardTable from "@/components/Cards/CardTable.vue";
+import MypageMain from '@/layouts/mypage/MypageMain.vue';
+import MypageBuyList from '@/components/Cards/Mypage/MypageBuyList.vue';
 
 export default {
   components: {
     MypageSidebar,
     CardLineChart,
-    CardTable,
+    MypageMain,
+    MypageBuyList
   },
   data() {
     return {

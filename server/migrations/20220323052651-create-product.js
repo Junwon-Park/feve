@@ -39,7 +39,22 @@ module.exports = {
       PRODUCT_WDATE: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
+      PRODUCT_PIC2: {
+        type: Sequelize.STRING(255)
+      },
+      PRODUCT_PIC3: {
+        type: Sequelize.STRING(255)
+      },
+      PRODUCT_DELETE: {
+        allowNull: false,
+        type: Sequelize.STRING(1),
+        defaultValue: '0'
+      },
+    }).then(function(){
+        queryInterface.addColumn('Product', {
+
+        })
     });
   },
   async down(queryInterface, Sequelize) {
