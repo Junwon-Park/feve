@@ -1,116 +1,56 @@
 <template>
   <div>
     <Slide />
-<<<<<<< HEAD
-    <div class=" mx-auto overflow-hidden pb-20">
+    <div class="mx-auto overflow-hidden pb-20">
       <div class="flex items-center pt-5">
         <div class="w-full px-4 mr-auto ml-auto mt-5">
           <div class="justify-center flex relative items-center flex-col">
-            <div class="my-4 w-full  flex flex-wrap  flex-row">
-              <div
-                  class="w-full md:w-6/12 xl:w-2/12 text-center mt-8 px-3 "
-=======
-    <div class="mx-auto overflow-hidden pb-20">
-      <div class="flex flex-wrap items-center pt-5">
-        <div class="w-full px-4 mr-auto ml-auto mt-5">
-          <div
-            class="justify-center flex flex-wrap relative items-center flex-col"
-          >
-            <div class="my-4 w-full flex flex-row">
-              <div
-                class="bg-emerald-400 rounded-lg text-center p-3 mt-8 mr-3"
-                style="width: 20%"
->>>>>>> oauth_topic
-              >
+            <div class="my-4 w-full flex flex-wrap flex-row">
+              <div class="w-full md:w-6/12 xl:w-2/12 text-center mt-8 px-3">
                 <div class="py-3 bg-emerald-400 rounded-lg">
                   <p class="text-lg text-white mt-4 font-semibold">#LEGO</p>
                 </div>
               </div>
-<<<<<<< HEAD
-                <div
-                    class="w-full md:w-6/12 xl:w-2/12 text-center mt-8 px-3 "
-                >
-                  <div class="py-3 bg-orange-500 rounded-lg">
-                  <p class="text-lg text-white mt-4 font-semibold">#BEARBRICK</p>
-                  </div>
-                </div>
-                <div
-                    class="w-full md:w-6/12 xl:w-2/12  text-center mt-8 px-3 "
-                >
-                  <div class="py-3 bg-blueGray-200 rounded-lg">
-                  <p class="text-lg  mt-4 font-semibold">#EVENT</p>
-                  </div>
-                </div>
-                <div
-                    class="w-full md:w-6/12 xl:w-2/12 text-center mt-8 px-3 "
-                >
-                  <div class="py-3 bg-blueGray-200 rounded-lg">
-                  <p class="text-lg  mt-4 font-semibold">
-                    #인스타그램
+              <div class="w-full md:w-6/12 xl:w-2/12 text-center mt-8 px-3">
+                <div class="py-3 bg-orange-500 rounded-lg">
+                  <p class="text-lg text-white mt-4 font-semibold">
+                    #BEARBRICK
                   </p>
-                  </div>
                 </div>
-                <div
-                    class="w-full md:w-6/12 xl:w-2/12 text-center mt-8 px-3 "
-                >
-                  <div class="py-3 bg-blueGray-200 rounded-lg">
-                  <p class="text-lg  mt-4 font-semibold">#배송</p>
-                  </div>
+              </div>
+              <div class="w-full md:w-6/12 xl:w-2/12 text-center mt-8 px-3">
+                <div class="py-3 bg-blueGray-200 rounded-lg">
+                  <p class="text-lg mt-4 font-semibold">#EVENT</p>
                 </div>
-=======
-              <div
-                class="bg-orange-500 dark rounded-lg text-center p-3 mt-8 mr-3"
-                style="width: 20%"
-              >
-                <p class="text-lg text-white mt-4 font-semibold">#BEARBRICK</p>
               </div>
-              <div
-                class="bg-blueGray-200 rounded-lg text-center p-3 mt-8 mr-3"
-                style="width: 20%"
-              >
-                <p class="text-lg mt-4 font-semibold">#EVENT</p>
+              <div class="w-full md:w-6/12 xl:w-2/12 text-center mt-8 px-3">
+                <div class="py-3 bg-blueGray-200 rounded-lg">
+                  <p class="text-lg mt-4 font-semibold">#인스타그램</p>
+                </div>
               </div>
-              <div
-                class="bg-blueGray-200 rounded-lg text-center p-3 mt-8 mr-3"
-                style="width: 20%"
-              >
-                <p class="text-lg mt-4 font-semibold">#인스타그램</p>
+              <div class="w-full md:w-6/12 xl:w-2/12 text-center mt-8 px-3">
+                <div class="py-3 bg-blueGray-200 rounded-lg">
+                  <p class="text-lg mt-4 font-semibold">#배송</p>
+                </div>
               </div>
-              <div
-                class="bg-blueGray-200 rounded-lg text-center p-3 mt-8 mr-3"
-                style="width: 20%"
-              >
-                <p class="text-lg mt-4 font-semibold">#배송</p>
-              </div>
->>>>>>> oauth_topic
             </div>
           </div>
         </div>
       </div>
     </div>
     <section class="mt-24 pb-40 relative px-12">
-<<<<<<< HEAD
-<div class="relative w-full flex flex-col min-w-0 break-words"></div>
-      <div class="flex flex-wrap ">
-        <div class="w-full  px-12 md:px-4">
-=======
+      <div class="relative w-full flex flex-col min-w-0 break-words"></div>
       <div class="flex flex-wrap">
         <div class="w-full px-12 md:px-4">
->>>>>>> oauth_topic
           <h3 class="text-3xl mb-2 font-semibold leading-normal">
             BEST SELLER
           </h3>
           <hr />
           <MainCardProduct />
-<<<<<<< HEAD
-            </div>
-        <v-btn outlined color="#999" class="ml-auto mr-auto px-5 mt-10">더 보기</v-btn>
-=======
         </div>
         <v-btn outlined color="#999" class="ml-auto mr-auto px-5 mt-10"
           >더 보기</v-btn
         >
->>>>>>> oauth_topic
       </div>
 
       <div class="flex flex-wrap mt-32">
