@@ -27,7 +27,5 @@ const googleOauth = async (req, res) => {
     }
   }
 };
-const kakaoOauth = (req, res) => {};
-const githubOauth = (req, res) => {};
 
-module.exports = { googleOauth, kakaoOauth, githubOauth };
+module.exports = { googleOauth };
