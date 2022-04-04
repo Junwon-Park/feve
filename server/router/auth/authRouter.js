@@ -16,7 +16,5 @@ router.post('/login', loginValidator, login);
 router.get('/logout', logout);
 router.post('/signup', signupValidator, signup);
 router.post('/google', googleOauth);
-router.post('/kakao', kakaoOauth);
-router.post('/github', githubOauth);
 
 module.exports = router;
