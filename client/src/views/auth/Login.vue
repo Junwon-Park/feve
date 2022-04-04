@@ -61,6 +61,24 @@
                   로그인
                 </button>
               </div>
+              <div class="text-center mt-6">
+                <button
+                  class="bg-orange-500 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                  type="button"
+                  @click="submitGooleLogin"
+                >
+                  Google 로그인
+                </button>
+              </div>
+              <!-- <div class="text-center mt-6">
+                <button
+                  class="bg-orange-500 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                  type="button"
+                  @click="submitGooleLogOut"
+                >
+                  Google 로그아웃
+                </button>
+              </div> -->
             </form>
           </div>
         </div>
@@ -95,16 +113,14 @@ export default {
       github,
       google,
       inputId: '',
-      inputPw: '',
-      baseURL: 'http://localhost:8080',
-      clientBaseURL: 'http://localhost:3000'
+      inputPw: ''
     };
   },
   methods: {
     async submitLogin() {
       const userData = await axios
         .post(
-          `${this.baseURL}/auth/login`,
+          `${this.$store.getters.ServerUrl}/auth/login`,
           { USER_ID: this.inputId, USER_PASSWORD: this.inputPw },
           {
             withCredentials: true,
@@ -125,8 +141,15 @@ export default {
         localStorage.setItem('Authorization', userData.data.data.accessToken);
         localStorage.setItem('isLogin', true);
         localStorage.setItem('userId', userData.data.data.USER_ID);
-        return (location.href = `${this.clientBaseURL}`);
+        return (location.href = `${this.$store.getters.LocalUrl}`);
       }
+    },
+    async submitGooleLogin() {
+      window.location.assign(this.$store.getters.googleLoginUrl);
+    },
+    async submitGooleLogOut() {
+      const logout = await axios.post(this.$store.getters.googleLogOutUrl);
+      console.log(logout);
     }
   }
 };
