@@ -21,13 +21,13 @@
         <hr />
         <v-card-text>
           <v-container>
-            <v-row>
+            <v-row id="chatMessage">
               <v-col
                 cols="12"
                 sm="12"
                 md="12"
-                v-for="(chat, i) in chat.mine"
-                :key="i"
+                v-for="(chat, i) in chat.others"
+                :key="i + 'm'"
               >
                 <v-chip> {{ chat.message }} </v-chip>
                 <v-chip class="ma-2" x-small> 1:00 pm </v-chip>
@@ -38,8 +38,8 @@
                 sm="12"
                 md="12"
                 class="text-right"
-                v-for="(chat, i) in chat.others"
-                :key="i"
+                v-for="(chat, i) in chat.mine"
+                :key="i + 'o'"
               >
                 <v-chip class="ma-2" x-small color="orange" text-color="white">
                   1:02 pm
@@ -82,25 +82,25 @@
 </template>
 <script>
 export default {
-  created() {
-    this.$socket.on('chat', (msg) => {
-      this.chat.mine.push({ message: msg });
-    });
-  },
   data: () => ({
-    dialog: false,
-    inputMessage: '',
     chat: {
-      mine: [{ message: 'hi~' }],
-      others: [{ message: 'oh! hi~~' }]
-    }
+      mine: [],
+      others: []
+    },
+    dialog: false,
+    inputMessage: ''
   }),
   methods: {
     sendMessage() {
-      console.log('click??');
       this.$socket.emit('chat', { message: this.inputMessage });
       this.chat.mine.push({ message: this.inputMessage });
+      this.inputMessage = '';
     }
+  },
+  created() {
+    this.$socket.on('chat', (msg) => {
+      this.chat.others.push(msg);
+    });
   }
 };
 </script>

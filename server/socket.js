@@ -1,5 +1,7 @@
-const io = require('socket.io')(server);
+const { io } = require('./app.js');
 
-io.on('connection', function (socket) {});
-
-socket.broadcast.emit('chat', rtnMessage);
+io.on('connection', function (socket) {
+  socket.on('chat', (msg) => {
+    console.log(msg);
+  });
+});
