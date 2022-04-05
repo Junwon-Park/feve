@@ -95,16 +95,14 @@ export default {
       github,
       google,
       inputId: '',
-      inputPw: '',
-      baseURL: 'http://localhost:8080',
-      clientBaseURL: 'http://localhost:3000'
+      inputPw: ''
     };
   },
   methods: {
     async submitLogin() {
       const userData = await axios
         .post(
-          `${this.baseURL}/auth/login`,
+          `${this.$store.getters.ServerUrl}/auth/login`,
           { USER_ID: this.inputId, USER_PASSWORD: this.inputPw },
           {
             withCredentials: true,
@@ -125,7 +123,10 @@ export default {
         localStorage.setItem('Authorization', userData.data.data.accessToken);
         localStorage.setItem('isLogin', true);
         localStorage.setItem('userId', userData.data.data.USER_ID);
-        return (location.href = `${this.clientBaseURL}`);
+        localStorage.setItem('userAdmin', userData.data.data.USER_ADMIN);
+        if (this.$store.state.userAdmin === '0')
+          return (location.href = `${this.$store.getters.LocalUrl}`);
+        else return (location.href = `${this.$store.getters.adminPage}`);
       }
     }
   }
