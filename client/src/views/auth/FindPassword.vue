@@ -7,7 +7,7 @@
         >
           <div class="flex-auto px-4 lg:px-10 py-10 pt-10">
             <div class="text-2xl text-blueGray-800 text-center mb-5 font-bold">
-              로그인
+              비밀번호 변경
             </div>
             <form>
               <div class="relative w-full mb-3">
@@ -18,7 +18,7 @@
                   아이디
                 </label>
                 <input
-                  type="email"
+                  type="text"
                   class="border-0 px-3 py-3 placeholder-blueGray-600 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                   placeholder="아이디를 입력하세요."
                   v-model="inputId"
@@ -30,13 +30,42 @@
                   class="block uppercase text-blueGray-800 text-xs font-bold mb-2"
                   htmlFor="grid-password"
                 >
-                  비밀번호
+                  이메일
+                </label>
+                <input
+                  type="email"
+                  class="border-0 px-3 py-3 placeholder-blueGray-600 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  placeholder="아이디를 입력하세요."
+                  v-model="inputMail"
+                />
+              </div>
+
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-800 text-xs font-bold mb-2"
+                  htmlFor="grid-password"
+                >
+                  변경할 비밀번호
                 </label>
                 <input
                   type="password"
                   class="border-0 px-3 py-3 placeholder-blueGray-600 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  placeholder="비밀번호를 입력하세요."
-                  v-model="inputPw"
+                  placeholder="변경할 비밀번호를 입력하세요."
+                  v-model="inputNewPassword"
+                />
+              </div>
+              <div class="relative w-full mb-3">
+                <label
+                  class="block uppercase text-blueGray-800 text-xs font-bold mb-2"
+                  htmlFor="grid-password"
+                >
+                  변경할 비밀번호 확인
+                </label>
+                <input
+                  type="password"
+                  class="border-0 px-3 py-3 placeholder-blueGray-600 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  placeholder="비밀번호를 다시 한 번 입력하세요."
+                  v-model="inputCheckNew"
                 />
               </div>
               <div>
@@ -46,9 +75,6 @@
                     type="checkbox"
                     class="form-checkbox border-1 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
                   />
-                  <span class="ml-2 text-sm font-semibold text-blueGray-600">
-                    아이디 기억하기
-                  </span>
                 </label>
               </div>
 
@@ -56,28 +82,12 @@
                 <button
                   class="bg-orange-500 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                   type="button"
-                  @click="submitLogin"
+                  @click="submitChange"
                 >
-                  로그인
+                  변경하기
                 </button>
               </div>
             </form>
-          </div>
-        </div>
-        <div class="flex flex-wrap mt-6 relative">
-          <div class="w-1/2">
-            <router-link to="/auth/findpassword">
-              <span class="text-blueGray-100">
-                <small>비밀번호를 잊어버리셨습니까?</small>
-              </span>
-            </router-link>
-          </div>
-          <div class="w-1/2 text-right">
-            <router-link to="/auth/register">
-              <span class="text-blueGray-100">
-                <small>아직 회원이 아니시라면?</small>
-              </span>
-            </router-link>
           </div>
         </div>
       </div>
@@ -85,48 +95,37 @@
   </div>
 </template>
 <script>
-import github from '@/assets/img/github.svg';
-import google from '@/assets/img/google.svg';
-import axios from 'axios';
-
 export default {
   data() {
     return {
-      github,
-      google,
       inputId: '',
-      inputPw: ''
+      inputMail: '',
+      inputNewPassword: '',
+      inputCheckNew: ''
     };
   },
   methods: {
-    async submitLogin() {
-      const userData = await axios
+    async submitChange() {
+      const changResult = await this.$axios
         .post(
-          `${this.$store.getters.ServerUrl}/auth/login`,
-          { USER_ID: this.inputId, USER_PASSWORD: this.inputPw },
+          `${this.$store.getters.ServerUrl}/auth/findpassword`,
           {
-            withCredentials: true,
-            headers: { Authorization: `Bearer ${this.accessToken}` }
+            USER_ID: this.inputId,
+            USER_MAIL: this.inputMail,
+            inputNewPassword: this.inputNewPassword
+          },
+          {
+            withCredentials: true
           }
         )
         .catch((err) => {
-          // Login failed
-          console.error('Login failed!!!', err);
-          alert('로그인에 실패했습니다.');
-          localStorage.setItem('Authorization', null);
-          localStorage.setItem('isLogin', false);
+          console.error('Change Password is failed!!!', err);
+          alert('비밀번호 번경에 실패했습니다.');
           return location.reload();
         });
-
-      if (userData) {
-        // Login successed
-        localStorage.setItem('Authorization', userData.data.data.accessToken);
-        localStorage.setItem('isLogin', true);
-        localStorage.setItem('userId', userData.data.data.USER_ID);
-        localStorage.setItem('userAdmin', userData.data.data.USER_ADMIN);
-        if (this.$store.state.userAdmin === '1')
-          return (location.href = `${this.$store.getters.LocalUrl}`);
-        else return (location.href = `${this.$store.getters.adminPage}`);
+      if (changResult.data.data) {
+        alert('비밀번호 번경이 완료되었습니다.');
+        return (location.href = `${this.$store.getters.LocalUrl}/auth/login`);
       }
     }
   }

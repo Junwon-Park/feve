@@ -41,12 +41,12 @@
               <input
                 type="text"
                 name=""
-                id=""
+                id="inputText"
                 placeholder="내용을 입력해주세요."
                 style="width: 90%; outline: none; border-color: #ccc"
                 v-model="inputMessage"
                 v-on:keyup.enter="sendMessage"
-                ref="setFocus"
+                ref="inputFocus"
               />
               <v-btn small color="orange" dark @click="sendMessage">
                 전송
@@ -78,6 +78,15 @@ export default {
     inputMessage: ''
   }),
   methods: {
+    mounted() {
+      this.setFocus();
+    },
+    setFocus() {
+      console.log('hi~~');
+      console.log('what??', this.$refs); // 비어 있음..
+      const inputText = document.querySelector('#inputText');
+      console.log(inputText);
+    },
     sendMessage() {
       this.$socket.emit('chat', {
         message: this.inputMessage,
@@ -97,19 +106,12 @@ export default {
         sender: 0,
         messageTime: moment().format('HH:mm')
       });
-    },
-    setFocus() {
-      this.$refs.setFocus.focus();
     }
   },
   created() {
     this.$socket.on('chat', (msg) => {
-      console.log(msg);
       this.chat.push(msg);
     });
-  },
-  mounted() {
-    this.setFocus();
   }
 };
 </script>
