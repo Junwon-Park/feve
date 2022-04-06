@@ -26,7 +26,7 @@ const store = new Vuex.Store({
       return 'http://localhost:8080';
     },
     adminPage() {
-      return 'http://localhost:3000/admin/addProduct';
+      return 'http://localhost:3000/admin';
     }
   }
 });

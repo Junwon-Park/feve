@@ -21,57 +21,45 @@
         <hr />
         <v-card-text>
           <v-container>
-            <v-row id="chatMessage">
-              <v-col
-                cols="12"
-                sm="12"
-                md="12"
-                v-for="(chat, i) in chat.others"
-                :key="i + 'm'"
-              >
+            <v-row id="chatMessage" v-for="(chat, i) in chat" :key="i">
+              <v-col cols="12" sm="12" md="12" v-if="chat.sender">
                 <v-chip> {{ chat.message }} </v-chip>
-                <v-chip class="ma-2" x-small> 1:00 pm </v-chip>
+                <v-chip class="ma-2" x-small> {{ chat.messageTime }} </v-chip>
               </v-col>
 
-              <v-col
-                cols="12"
-                sm="12"
-                md="12"
-                class="text-right"
-                v-for="(chat, i) in chat.mine"
-                :key="i + 'o'"
-              >
+              <v-col v-else cols="12" sm="12" md="12" class="text-right">
                 <v-chip class="ma-2" x-small color="orange" text-color="white">
-                  1:02 pm
+                  {{ chat.messageTime }}
                 </v-chip>
                 <v-chip color="orange" text-color="white">
                   {{ chat.message }}
                 </v-chip>
               </v-col>
-
-              <v-col cols="12" sm="12" md="12">
-                <input
-                  type="text"
-                  name=""
-                  id=""
-                  placeholder="내용을 입력해주세요."
-                  style="width: 90%; outline: none; border-color: #ccc"
-                  v-model="inputMessage"
-                />
-                <v-btn small color="orange" dark @click="sendMessage">
-                  전송
-                </v-btn>
-              </v-col>
             </v-row>
+            <hr style="margin-top: 20px" />
+            <v-col cols="12" sm="12" md="12">
+              <input
+                type="text"
+                name=""
+                id=""
+                placeholder="내용을 입력해주세요."
+                style="width: 90%; outline: none; border-color: #ccc"
+                v-model="inputMessage"
+                v-on:keyup.enter="sendMessage"
+                ref="setFocus"
+              />
+              <v-btn small color="orange" dark @click="sendMessage">
+                전송
+              </v-btn>
+            </v-col>
+            <hr />
           </v-container>
-          <hr />
           <small class="mt-10"
             >* 상담내용은 따로 저장되지 않으니 주의하시기 바랍니다.</small
           >
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="dialog = false"> 취소 </v-btn>
           <v-btn color="orange darken-1" text @click="dialog = false">
             상담 완료
           </v-btn>
@@ -81,26 +69,47 @@
   </v-row>
 </template>
 <script>
+import moment from 'moment';
+
 export default {
   data: () => ({
-    chat: {
-      mine: [],
-      others: []
-    },
+    chat: [],
     dialog: false,
     inputMessage: ''
   }),
   methods: {
     sendMessage() {
-      this.$socket.emit('chat', { message: this.inputMessage });
-      this.chat.mine.push({ message: this.inputMessage });
+      this.$socket.emit('chat', {
+        message: this.inputMessage,
+        sender: 0,
+        messageTime: moment().format('HH:mm')
+      });
+      this.chat.push({
+        message: this.inputMessage,
+        sender: 0,
+        messageTime: moment().format('HH:mm')
+      });
       this.inputMessage = '';
+    },
+    submitEnter() {
+      this.$socket.emit('chat', {
+        message: this.inputMessage,
+        sender: 0,
+        messageTime: moment().format('HH:mm')
+      });
+    },
+    setFocus() {
+      this.$refs.setFocus.focus();
     }
   },
   created() {
     this.$socket.on('chat', (msg) => {
-      this.chat.others.push(msg);
+      console.log(msg);
+      this.chat.push(msg);
     });
+  },
+  mounted() {
+    this.setFocus();
   }
 };
 </script>

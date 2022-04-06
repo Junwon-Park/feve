@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const fs = require('fs');
 const { Server } = require('socket.io');
+const moment = require('moment');
 
 const { config } = require('./config.js');
 
@@ -137,6 +138,9 @@ const io = new Server(server, {
 
 io.on('connection', function (socket) {
   socket.on('chat', (msg) => {
+    console.log(msg);
+    msg.sender = 1;
+    msg.messageTime = moment().format('HH:mm');
     socket.broadcast.emit('chat', msg);
   });
 });
