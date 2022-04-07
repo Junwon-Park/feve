@@ -201,8 +201,30 @@ export default {
       USER_ADDRESS1: '',
       USER_ADDRESS2: '',
       POST_CODE: '',
-      baseURL: 'http://localhost:8080',
-      clientBaseURL: 'http://localhost:3000'
+      formRule: {
+        name: [
+          (v) => !!v || '이름은 필수 입력사항 입니다.',
+          (v) =>
+            !(v && v.length >= 30) || '이름은 30자 이상 입력할 수 없습니다.',
+          (v) =>
+            !/[~!@#$%^&*()_+|<>?:{}]/.test(v) ||
+            '이름에는 특수문자를 사용할 수 없습니다.'
+        ],
+        password: [
+          (v) => !!v || '패스워드는 필수 입력사항 입니다.',
+          (v) =>
+            !(v && v.length >= 30) || '패스워드는 30자 이상 입력할 수 없습니다.'
+        ],
+        email: [
+          (v) => !!v || '이메일은 필수 입력사항 입니다.',
+          (v) => /.+@.+/.test(v) || '이메일 형식이 아닙니다.'
+        ],
+        phone: [
+          (v) => !!v || '핸드폰번호는 필수 입력사항 입니다.',
+          (v) =>
+            /01[0179]-\d{3,4}-\d{4}/.test(v) || '핸드폰번호 형식이 아닙니다.'
+        ]
+      }
     };
   },
   methods: {
@@ -223,7 +245,7 @@ export default {
 
       const checkSignUp = await axios
         .post(
-          `${this.baseURL}/auth/signup`,
+          `${this.$store.getters.ServerUrl}/auth/signup`,
           {
             USER_ID: this.USER_ID,
             USER_PASSWORD: this.USER_PASSWORD,
@@ -249,7 +271,7 @@ export default {
         localStorage.setItem('userId', checkSignUp.data.data.USER_ID);
         alert('회원가입이 완료되었습니다.');
       }
-      return (location.href = `${this.clientBaseURL}`);
+      return (location.href = `${this.$store.getters.LocalUrl}`);
     }
   }
 };
