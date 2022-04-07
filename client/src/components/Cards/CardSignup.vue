@@ -22,6 +22,17 @@
               회원정보 입력
             </h6>
             <div class="flex flex-wrap">
+              <v-col cols="12" style="margin-left: 15px">
+                <v-btn
+                  elevation="2"
+                  large
+                  color="primary"
+                  style="margin-top: 10px"
+                  @click="checkUserId"
+                  >아이디 중복 검사</v-btn
+                >
+              </v-col>
+
               <div class="w-full lg:w-6/12 px-4">
                 <v-col cols="12">
                   <v-text-field
@@ -29,6 +40,7 @@
                     :rules="validationRules.id"
                     v-model="USER_ID"
                     placeholder="사용할 아이디를 입력하세요."
+                    @change="changeId"
                     required
                   ></v-text-field>
                 </v-col>
@@ -167,6 +179,7 @@
 </template>
 <script>
 import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -178,18 +191,20 @@ export default {
       USER_ADDRESS1: '',
       USER_ADDRESS2: '',
       POST_CODE: '',
+      checkId: false,
       validationRules: {
         id: [
           (v) => !!v || '아이디는 필수 입력사항입니다.',
           (v) =>
             /^[a-zA-Z0-9]*$/.test(v) || '아이디는 영문+숫자만 입력 가능합니다.',
           (v) =>
-            !(v && v.length >= 15) || '아이디는 15자 이상 입력할 수 없습니다.'
+            !(v && v.length > 12) || '아이디는 12자 이상 입력할 수 없습니다.',
+          (v) => !(v && v.length < 8) || '아이디는 8자 미만일 수 없습니다.'
         ],
         name: [
           (v) => !!v || '이름은 필수 입력사항 입니다.',
           (v) =>
-            !(v && v.length >= 30) || '이름은 30자 이상 입력할 수 없습니다.',
+            !(v && v.length > 10) || '이름은 10자 이상 입력할 수 없습니다.',
           (v) =>
             !/[~!@#$%^&*()_+|<>?:{}]/.test(v) ||
             '이름에는 특수문자를 사용할 수 없습니다.'
@@ -197,7 +212,8 @@ export default {
         password: [
           (v) => !!v || '패스워드는 필수 입력사항 입니다.',
           (v) =>
-            !(v && v.length >= 30) || '패스워드는 30자 이상 입력할 수 없습니다.'
+            !(v && v.length > 20) || '패스워드는 20자 이상 입력할 수 없습니다.',
+          (v) => !(v && v.length < 10) || '패스워드는 10자 미만일 수 없습니다.'
         ],
         passwordCheck: [
           (v) => !!v || '패스워드는 필수 입력사항입니다.',
@@ -219,6 +235,30 @@ export default {
     };
   },
   methods: {
+    changeId() {
+      this.checkId = false;
+    },
+    async checkUserId() {
+      if (this.USER_ID.length === 0 || this.USER_ID.length < 8)
+        return alert('아이디를 정확히 입력하세요.');
+      else {
+        const userInfo = await this.$axios.post(
+          `${this.$store.getters.ServerUrl}/auth/checkuserid`,
+          { USER_ID: this.USER_ID },
+          {
+            withCredentials: true
+          }
+        );
+
+        if (!userInfo) {
+          this.checkId = false;
+          return alert('이미 존재하는 아이디 입니다.');
+        } else {
+          this.checkId = true;
+          return alert('사용 가능한 아이디 입니다.');
+        }
+      }
+    },
     postCode() {
       new window.daum.Postcode({
         oncomplete: function (data) {
@@ -237,36 +277,39 @@ export default {
 
       if (!validate) return alert('입력하신 내용을 다시 확인하세요.');
       else {
-        const checkSignUp = await axios
-          .post(
-            `${this.$store.getters.ServerUrl}/auth/signup`,
-            {
-              USER_ID: this.USER_ID,
-              USER_PASSWORD: this.USER_PASSWORD,
-              USER_NAME: this.USER_NAME,
-              USER_MAIL: this.USER_MAIL,
-              USER_PHONE: this.USER_PHONE,
-              USER_ADDRESS1: userAddress.value,
-              USER_ADDRESS2: this.USER_ADDRESS2,
-              POST_CODE: postCode.value
-            },
-            { withCredentials: true }
-          )
-          .catch((err) => {
-            console.log('Sign up failed!!!', err);
-          });
+        if (!this.checkId) return alert('아이디 중복 확인을 하세요.');
+        else {
+          const checkSignUp = await axios
+            .post(
+              `${this.$store.getters.ServerUrl}/auth/signup`,
+              {
+                USER_ID: this.USER_ID,
+                USER_PASSWORD: this.USER_PASSWORD,
+                USER_NAME: this.USER_NAME,
+                USER_MAIL: this.USER_MAIL,
+                USER_PHONE: this.USER_PHONE,
+                USER_ADDRESS1: userAddress.value,
+                USER_ADDRESS2: this.USER_ADDRESS2,
+                POST_CODE: postCode.value
+              },
+              { withCredentials: true }
+            )
+            .catch((err) => {
+              console.log('Sign up failed!!!', err);
+            });
 
-        if (checkSignUp) {
-          localStorage.setItem('isLogin', true);
-          localStorage.setItem(
-            'Authorization',
-            checkSignUp.data.data.accessToken
-          );
-          localStorage.setItem('userId', checkSignUp.data.data.USER_ID);
-          localStorage.setItem('userKey', checkSignUp.data.data.USER_KEY);
-          alert('회원가입이 완료되었습니다.');
+          if (checkSignUp) {
+            localStorage.setItem('isLogin', true);
+            localStorage.setItem(
+              'Authorization',
+              checkSignUp.data.data.accessToken
+            );
+            localStorage.setItem('userId', checkSignUp.data.data.USER_ID);
+            localStorage.setItem('userKey', checkSignUp.data.data.USER_KEY);
+            alert('회원가입이 완료되었습니다.');
+          }
+          return (location.href = `${this.$store.getters.LocalUrl}`);
         }
-        return (location.href = `${this.$store.getters.LocalUrl}`);
       }
     }
   }

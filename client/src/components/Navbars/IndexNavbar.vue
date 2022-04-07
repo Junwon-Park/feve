@@ -27,6 +27,16 @@
         id="example-navbar-warning"
       >
         <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+          <li class="flex items-center" v-if="isAdmin">
+            <router-link to="/admin">
+              <span
+                class="text-blueGray-800 px-3 py-2 flex items-center text-xs uppercase"
+              >
+                <span class="lg inline-block ml-2"> 관리자 페이지 </span>
+              </span>
+            </router-link>
+          </li>
+
           <li class="flex items-center" v-if="!$store.state.isLogin">
             <router-link to="/auth/login">
               <span
@@ -124,7 +134,8 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      navbarOpen: false
+      navbarOpen: false,
+      isAdmin: JSON.parse(localStorage.getItem('userAdmin'))
     };
   },
   methods: {
@@ -143,7 +154,11 @@ export default {
       localStorage.setItem('isLogin', false);
       localStorage.setItem('Authorization', accessToken);
       localStorage.setItem('userId', null);
+      localStorage.setItem('userAdmin', null);
       location.href = `${this.clientBaseURL}`;
+    },
+    getAdminPage() {
+      location.href = `${this.$store.getters.adminPage}`;
     }
   },
   components: {

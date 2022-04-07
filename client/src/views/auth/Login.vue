@@ -124,9 +124,7 @@ export default {
         localStorage.setItem('isLogin', true);
         localStorage.setItem('userId', userData.data.data.USER_ID);
         localStorage.setItem('userAdmin', userData.data.data.USER_ADMIN);
-        if (this.$store.state.userAdmin === '1')
-          return (location.href = `${this.$store.getters.LocalUrl}`);
-        else return (location.href = `${this.$store.getters.adminPage}`);
+        return (location.href = `${this.$store.getters.LocalUrl}`);
       }
     }
   }

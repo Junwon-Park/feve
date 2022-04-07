@@ -107,8 +107,8 @@ export default {
         passwordCheck: [
           (v) => !!v || '패스워드는 필수 입력사항입니다.',
           (v) =>
-            !(v && v.length >= 30) ||
-            '패스워드는 30자 이상 입력할 수 없습니다.',
+            !(v && v.length > 20) || '패스워드는 20자 이상 입력할 수 없습니다.',
+          (v) => !(v && v.length < 10) || '패스워드는 10자 미만일 수 없습니다.',
           (v) => v === this.inputNewPassword || '패스워드가 일치하지 않습니다.'
         ],
         email: [

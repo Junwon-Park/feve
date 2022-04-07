@@ -14,7 +14,7 @@
           <v-icon color="white">mdi-chat</v-icon>
         </v-btn>
       </template>
-      <v-card>
+      <v-card height="500px">
         <v-card-title>
           <span class="text-h5">문의하기</span>
         </v-card-title>
