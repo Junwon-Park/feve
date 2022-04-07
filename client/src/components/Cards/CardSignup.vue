@@ -26,8 +26,9 @@
                 <v-col cols="12">
                   <v-text-field
                     label="아이디"
-                    :readonly="isReadonly"
-                    :rules="formRule.email"
+                    :rules="validationRules.id"
+                    v-model="USER_ID"
+                    placeholder="사용할 아이디를 입력하세요."
                     required
                   ></v-text-field>
                 </v-col>
@@ -35,8 +36,10 @@
                 <v-col cols="12">
                   <v-text-field
                     label="비밀번호"
-                    :readonly="isReadonly"
-                    :rules="formRule.email"
+                    type="password"
+                    :rules="validationRules.password"
+                    v-model="USER_PASSWORD"
+                    placeholder="사용할 비밀번호를 입력하세요."
                     required
                   ></v-text-field>
                 </v-col>
@@ -44,8 +47,9 @@
                 <v-col cols="12">
                   <v-text-field
                     label="비밀번호 확인"
-                    :readonly="isReadonly"
-                    :rules="formRule.email"
+                    :rules="validationRules.passwordCheck"
+                    type="password"
+                    placeholder="입력한 비밀번호를 확인하세요."
                     required
                   ></v-text-field>
                 </v-col>
@@ -54,8 +58,9 @@
                 <v-col cols="12">
                   <v-text-field
                     label="이름"
-                    :readonly="isReadonly"
-                    :rules="formRule.email"
+                    :rules="validationRules.name"
+                    v-model="USER_NAME"
+                    placeholder="홍길동"
                     required
                   ></v-text-field>
                 </v-col>
@@ -63,8 +68,9 @@
                 <v-col cols="12">
                   <v-text-field
                     label="이메일"
-                    :readonly="isReadonly"
-                    :rules="formRule.email"
+                    :rules="validationRules.email"
+                    v-model="USER_MAIL"
+                    placeholder="abc123@feve.com"
                     required
                   ></v-text-field>
                 </v-col>
@@ -72,8 +78,9 @@
                 <v-col cols="12">
                   <v-text-field
                     label="전화번호"
-                    :readonly="isReadonly"
-                    :rules="formRule.email"
+                    :rules="validationRules.phone"
+                    v-model="USER_PHONE"
+                    placeholder="010-0000-0000"
                     required
                   ></v-text-field>
                 </v-col>
@@ -171,7 +178,14 @@ export default {
       USER_ADDRESS1: '',
       USER_ADDRESS2: '',
       POST_CODE: '',
-      formRule: {
+      validationRules: {
+        id: [
+          (v) => !!v || '아이디는 필수 입력사항입니다.',
+          (v) =>
+            /^[a-zA-Z0-9]*$/.test(v) || '아이디는 영문+숫자만 입력 가능합니다.',
+          (v) =>
+            !(v && v.length >= 15) || '아이디는 15자 이상 입력할 수 없습니다.'
+        ],
         name: [
           (v) => !!v || '이름은 필수 입력사항 입니다.',
           (v) =>
@@ -184,6 +198,13 @@ export default {
           (v) => !!v || '패스워드는 필수 입력사항 입니다.',
           (v) =>
             !(v && v.length >= 30) || '패스워드는 30자 이상 입력할 수 없습니다.'
+        ],
+        passwordCheck: [
+          (v) => !!v || '패스워드는 필수 입력사항입니다.',
+          (v) =>
+            !(v && v.length >= 30) ||
+            '패스워드는 30자 이상 입력할 수 없습니다.',
+          (v) => v === this.USER_PASSWORD || '패스워드가 일치하지 않습니다.'
         ],
         email: [
           (v) => !!v || '이메일은 필수 입력사항 입니다.',
@@ -212,36 +233,41 @@ export default {
     async submitSignUp() {
       const userAddress = document.querySelector('.address');
       const postCode = document.querySelector('.postCode');
+      const validate = this.$refs.form.validate();
 
-      const checkSignUp = await axios
-        .post(
-          `${this.$store.getters.ServerUrl}/auth/signup`,
-          {
-            USER_ID: this.USER_ID,
-            USER_PASSWORD: this.USER_PASSWORD,
-            USER_NAME: this.USER_NAME,
-            USER_MAIL: this.USER_MAIL,
-            USER_PHONE: this.USER_PHONE,
-            USER_ADDRESS1: userAddress.value,
-            USER_ADDRESS2: this.USER_ADDRESS2,
-            POST_CODE: postCode.value
-          },
-          { withCredentials: true }
-        )
-        .catch((err) => {
-          console.log('Sign up failed!!!', err);
-        });
+      if (!validate) return alert('입력하신 내용을 다시 확인하세요.');
+      else {
+        const checkSignUp = await axios
+          .post(
+            `${this.$store.getters.ServerUrl}/auth/signup`,
+            {
+              USER_ID: this.USER_ID,
+              USER_PASSWORD: this.USER_PASSWORD,
+              USER_NAME: this.USER_NAME,
+              USER_MAIL: this.USER_MAIL,
+              USER_PHONE: this.USER_PHONE,
+              USER_ADDRESS1: userAddress.value,
+              USER_ADDRESS2: this.USER_ADDRESS2,
+              POST_CODE: postCode.value
+            },
+            { withCredentials: true }
+          )
+          .catch((err) => {
+            console.log('Sign up failed!!!', err);
+          });
 
-      if (checkSignUp) {
-        localStorage.setItem('isLogin', true);
-        localStorage.setItem(
-          'Authorization',
-          checkSignUp.data.data.accessToken
-        );
-        localStorage.setItem('userId', checkSignUp.data.data.USER_ID);
-        alert('회원가입이 완료되었습니다.');
+        if (checkSignUp) {
+          localStorage.setItem('isLogin', true);
+          localStorage.setItem(
+            'Authorization',
+            checkSignUp.data.data.accessToken
+          );
+          localStorage.setItem('userId', checkSignUp.data.data.USER_ID);
+          localStorage.setItem('userKey', checkSignUp.data.data.USER_KEY);
+          alert('회원가입이 완료되었습니다.');
+        }
+        return (location.href = `${this.$store.getters.LocalUrl}`);
       }
-      return (location.href = `${this.$store.getters.LocalUrl}`);
     }
   }
 };
