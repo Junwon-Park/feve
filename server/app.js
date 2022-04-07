@@ -71,6 +71,7 @@ app.use(cors(devCors));
 
 // To router
 app.use('/auth', authRouter);
+
 app.use('/addproduct', addproductRoute);
 app.use('/category', categorytRoute);
 app.use('/cscenter/cscenter', cscenterRoute);

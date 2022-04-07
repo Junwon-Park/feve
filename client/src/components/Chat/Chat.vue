@@ -47,6 +47,7 @@
                 v-model="inputMessage"
                 v-on:keyup.enter="sendMessage"
                 ref="inputFocus"
+                autocomplete="off"
               />
               <v-btn small color="orange" dark @click="sendMessage">
                 전송
