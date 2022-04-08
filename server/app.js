@@ -3,6 +3,8 @@ require('express-async-errors');
 const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
+const fs = require('fs');
+const https = require('https');
 
 const { config } = require('./config.js');
 
@@ -37,6 +39,7 @@ const mypageBuyListRouter = require('./router/mypage/mypageBuyList.js');
 const mypageSellListRouter = require('./router/mypage/mypageSellList.js');
 const mypageFavoriteListRouter = require('./router/mypage/mypageFavoriteList.js');
 const mypageProfileRouter = require('./router/mypage/mypageProfile.js');
+<<<<<<< HEAD
 const imageRouter = require("./image/image.js");
 const imageStyleRouter = require("./image/styleImage.js");
 const uploadImageRouter = require("./image/uploadImage.js");
@@ -44,6 +47,11 @@ const uploadStyleImageRouter = require("./image/uploadStyleImage.js");
 
 const cscenterInsertRoute = require("./router/cscenter/cscenterInsert.js");
 const mainLoadproductRoute = require('./router/main/loadproduct.js');
+=======
+const imageRouter = require('./image/image.js');
+const uploadImageRouter = require('./image/uploadImage.js');
+const cscenterRoute = require('./router/cscenter/cscenter.js');
+>>>>>>> oauth_topic
 
 const app = express();
 const PORT = config.PORT || 4000;
@@ -59,7 +67,7 @@ app.use(
 
 app.use(morgan('tiny'));
 app.use(helmet());
-const whiteListByCors = ['http://localhost:3000'];
+const whiteListByCors = ['https://localhost:3000'];
 const corsOptions = {
   origin: (origin, callback) => {
     if (whiteListByCors.indexOf(origin) !== -1) {
@@ -72,7 +80,7 @@ const corsOptions = {
   optionsSuccessStatus: 200
 };
 const devCors = {
-  origin: 'http://localhost:3000',
+  origin: 'https://localhost:3000',
   credentials: true,
   optionsSuccessStatus: 200
 };
@@ -82,9 +90,14 @@ app.use(cors(devCors));
 app.use('/auth', authRouter);
 app.use('/addproduct', addproductRoute);
 app.use('/category', categorytRoute);
+<<<<<<< HEAD
 
 app.use("/cscenter/cscenterInsert", cscenterInsertRoute)
 app.use("/getImage", imageRouter);
+=======
+app.use('/cscenter/cscenter', cscenterRoute);
+app.use('/getImage', imageRouter);
+>>>>>>> oauth_topic
 
 app.use('/admin/addproduct', addproductRoute);
 app.use('/admin/loadproduct', loadproductRoute);
@@ -135,6 +148,20 @@ app.use((error, req, res, next) => {
   res.sendStatus(500);
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT} successfully!!!`);
-});
+let server;
+if (fs.existsSync('./certKey/key.pem') && fs.existsSync('./certKey/cert.pem')) {
+  const privateKey = fs.readFileSync(__dirname + '/certKey/key.pem', 'utf8');
+  const certificate = fs.readFileSync(__dirname + '/certKey/cert.pem', 'utf8');
+  const credentials = { key: privateKey, cert: certificate };
+
+  server = https.createServer(credentials, app);
+  server.listen(PORT, () =>
+    console.log(`HTTPS server running on port ${PORT} successfully!!!`)
+  );
+} else {
+  server = app.listen(PORT, () => {
+    console.log(`HTTP server running on port ${PORT} successfully!!!`);
+  });
+}
+
+module.exports = server;
