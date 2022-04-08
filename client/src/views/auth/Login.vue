@@ -124,6 +124,7 @@ export default {
         localStorage.setItem('isLogin', true);
         localStorage.setItem('userId', userData.data.data.USER_ID);
         localStorage.setItem('userAdmin', userData.data.data.USER_ADMIN);
+        localStorage.setItem('userKey', userData.data.data.USER_KEY);
         return (location.href = `${this.$store.getters.LocalUrl}`);
       }
     }

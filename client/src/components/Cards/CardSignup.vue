@@ -117,7 +117,6 @@
                     type="text"
                     class="address border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                     placeholder="주소를 입력하세요."
-                    readonly
                   />
                 </div>
               </div>
@@ -166,7 +165,6 @@
                     type="text"
                     class="postCode border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                     placeholder="우편 번호를 입력하세요."
-                    readonly
                   />
                 </div>
               </div>
@@ -192,6 +190,8 @@ export default {
       USER_ADDRESS2: '',
       POST_CODE: '',
       checkId: false,
+      addressLength: 0,
+      postCodeLength: 0,
       validationRules: {
         id: [
           (v) => !!v || '아이디는 필수 입력사항입니다.',
@@ -237,6 +237,7 @@ export default {
   methods: {
     changeId() {
       this.checkId = false;
+      console.log('체인지', this.checkId);
     },
     async checkUserId() {
       if (this.USER_ID.length === 0 || this.USER_ID.length < 8)
@@ -252,9 +253,11 @@ export default {
 
         if (!userInfo) {
           this.checkId = false;
+          console.log('존재하는 아이디', this.checkId);
           return alert('이미 존재하는 아이디 입니다.');
         } else {
           this.checkId = true;
+          console.log('사용 가능한 아이디', this.checkId);
           return alert('사용 가능한 아이디 입니다.');
         }
       }
@@ -267,6 +270,10 @@ export default {
 
           userAddress.value = data.address;
           postCode.value = data.zonecode;
+          localStorage.setItem('addressLength', data.address.length);
+          localStorage.setItem('postCodeLength', data.zonecode.length);
+          userAddress.readOnly = true;
+          postCode.readOnly = true;
         }
       }).open();
     },
@@ -274,11 +281,19 @@ export default {
       const userAddress = document.querySelector('.address');
       const postCode = document.querySelector('.postCode');
       const validate = this.$refs.form.validate();
+      const addressLength = JSON.parse(localStorage.getItem('addressLength'));
+      const postCodeLength = JSON.parse(localStorage.getItem('postCodeLength'));
 
-      if (!validate) return alert('입력하신 내용을 다시 확인하세요.');
+      if (!this.checkId) return alert('아이디 중복 확인을 하세요.');
       else {
-        if (!this.checkId) return alert('아이디 중복 확인을 하세요.');
-        else {
+        if (
+          !validate ||
+          addressLength === 0 ||
+          this.USER_ADDRESS2.length === 0 ||
+          postCodeLength === 0
+        ) {
+          return alert('입력하신 내용을 다시 확인하세요.');
+        } else {
           const checkSignUp = await axios
             .post(
               `${this.$store.getters.ServerUrl}/auth/signup`,
@@ -306,6 +321,8 @@ export default {
             );
             localStorage.setItem('userId', checkSignUp.data.data.USER_ID);
             localStorage.setItem('userKey', checkSignUp.data.data.USER_KEY);
+            localStorage.setItem('addressLength', null);
+            localStorage.setItem('postCodeLength', null);
             alert('회원가입이 완료되었습니다.');
           }
           return (location.href = `${this.$store.getters.LocalUrl}`);

@@ -155,6 +155,8 @@ export default {
       localStorage.setItem('Authorization', accessToken);
       localStorage.setItem('userId', null);
       localStorage.setItem('userAdmin', null);
+      localStorage.setItem('userKey', null);
+
       location.href = `${this.clientBaseURL}`;
     },
     getAdminPage() {

@@ -14,31 +14,43 @@
           <v-icon color="white">mdi-chat</v-icon>
         </v-btn>
       </template>
-      <v-card height="500px">
+      <v-card>
         <v-card-title>
           <span class="text-h5">문의하기</span>
         </v-card-title>
         <hr />
         <v-card-text>
           <v-container>
-            <v-row id="chatMessage" v-for="(chat, i) in chat" :key="i">
-              <v-col cols="12" sm="12" md="12" v-if="chat.sender">
-                <v-chip> {{ chat.message }} </v-chip>
-                <v-chip class="ma-2" x-small> {{ chat.messageTime }} </v-chip>
-              </v-col>
+            <div
+              id="container"
+              style="height: 500px; overflow-y: scroll; overflow-x: hidden"
+              ref="chatContainer"
+            >
+              <v-row id="chatMessage" v-for="(chat, i) in chat" :key="i">
+                <v-col cols="12" sm="12" md="12" v-if="chat.sender">
+                  <v-chip> {{ chat.message }} </v-chip>
+                  <v-chip class="ma-2" x-small> {{ chat.messageTime }} </v-chip>
+                </v-col>
 
-              <v-col v-else cols="12" sm="12" md="12" class="text-right">
-                <v-chip class="ma-2" x-small color="orange" text-color="white">
-                  {{ chat.messageTime }}
-                </v-chip>
-                <v-chip color="orange" text-color="white">
-                  {{ chat.message }}
-                </v-chip>
-              </v-col>
-            </v-row>
+                <v-col v-else cols="12" sm="12" md="12" class="text-right">
+                  <v-chip
+                    class="ma-2"
+                    x-small
+                    color="orange"
+                    text-color="white"
+                  >
+                    {{ chat.messageTime }}
+                  </v-chip>
+                  <v-chip color="orange" text-color="white">
+                    {{ chat.message }}
+                  </v-chip>
+                </v-col>
+              </v-row>
+            </div>
             <hr style="margin-top: 20px" />
             <v-col cols="12" sm="12" md="12">
               <input
+                ref="inputFocus"
                 type="text"
                 name=""
                 id="inputText"
@@ -46,7 +58,6 @@
                 style="width: 90%; outline: none; border-color: #ccc"
                 v-model="inputMessage"
                 v-on:keyup.enter="sendMessage"
-                ref="inputFocus"
                 autocomplete="off"
               />
               <v-btn small color="orange" dark @click="sendMessage">
@@ -79,14 +90,11 @@ export default {
     inputMessage: ''
   }),
   methods: {
-    mounted() {
-      this.setFocus();
-    },
     setFocus() {
-      console.log('hi~~');
-      console.log('what??', this.$refs); // 비어 있음..
-      const inputText = document.querySelector('#inputText');
-      console.log(inputText);
+      console.log('updated', this.$refs);
+      this.$nextTick(() => {
+        this.$refs.inputFocus.focus();
+      });
     },
     sendMessage() {
       this.$socket.emit('chat', {
@@ -108,6 +116,11 @@ export default {
         messageTime: moment().format('HH:mm')
       });
     }
+  },
+  updated() {
+    this.setFocus();
+    const chatContainer = this.$refs.chatContainer;
+    chatContainer.scrollTop = chatContainer.scrollHeight;
   },
   created() {
     this.$socket.on('chat', (msg) => {
