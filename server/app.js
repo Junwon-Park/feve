@@ -29,9 +29,9 @@ const categorytRoute = require('./router/common/category.js');
 const shoplistRoute = require('./router/shop/shoplist.js');
 const shopviewRoute = require('./router/shop/shopview.js');
 const buyconfirmRouter = require('./router/sold/buyconfirm.js');
-const buyRouter = require("./router/sold/buyproduct.js");
+const buyRouter = require('./router/sold/buyproduct.js');
 const sellconfirmRouter = require('./router/sold/sellconfirm.js');
-const sellRouter = require("./router/sold/sellproduct.js");
+const sellRouter = require('./router/sold/sellproduct.js');
 const filterCateRouter = require('./router/shop/filterCate.js');
 const filterPriceRouter = require('./router/shop/filterPrice.js');
 const mypageMainRouter = require('./router/mypage/mypageMain.js');
@@ -39,19 +39,13 @@ const mypageBuyListRouter = require('./router/mypage/mypageBuyList.js');
 const mypageSellListRouter = require('./router/mypage/mypageSellList.js');
 const mypageFavoriteListRouter = require('./router/mypage/mypageFavoriteList.js');
 const mypageProfileRouter = require('./router/mypage/mypageProfile.js');
-<<<<<<< HEAD
-const imageRouter = require("./image/image.js");
-const imageStyleRouter = require("./image/styleImage.js");
-const uploadImageRouter = require("./image/uploadImage.js");
-const uploadStyleImageRouter = require("./image/uploadStyleImage.js");
-
-const cscenterInsertRoute = require("./router/cscenter/cscenterInsert.js");
-const mainLoadproductRoute = require('./router/main/loadproduct.js');
-=======
 const imageRouter = require('./image/image.js');
+const imageStyleRouter = require('./image/styleImage.js');
 const uploadImageRouter = require('./image/uploadImage.js');
-const cscenterRoute = require('./router/cscenter/cscenter.js');
->>>>>>> oauth_topic
+const uploadStyleImageRouter = require('./image/uploadStyleImage.js');
+
+const cscenterInsertRoute = require('./router/cscenter/cscenterInsert.js');
+const mainLoadproductRoute = require('./router/main/loadproduct.js');
 
 const app = express();
 const PORT = config.PORT || 4000;
@@ -90,14 +84,9 @@ app.use(cors(devCors));
 app.use('/auth', authRouter);
 app.use('/addproduct', addproductRoute);
 app.use('/category', categorytRoute);
-<<<<<<< HEAD
 
-app.use("/cscenter/cscenterInsert", cscenterInsertRoute)
-app.use("/getImage", imageRouter);
-=======
-app.use('/cscenter/cscenter', cscenterRoute);
+app.use('/cscenter/cscenterInsert', cscenterInsertRoute);
 app.use('/getImage', imageRouter);
->>>>>>> oauth_topic
 
 app.use('/admin/addproduct', addproductRoute);
 app.use('/admin/loadproduct', loadproductRoute);
@@ -122,8 +111,8 @@ app.use('/shop/filterCate', filterCateRouter);
 app.use('/shop/filterPrice', filterPriceRouter);
 app.use('/shop/shopview', shopviewRoute);
 
-app.use('/buy',buyconfirmRouter);
-app.use('/buy/proc',buyRouter);
+app.use('/buy', buyconfirmRouter);
+app.use('/buy/proc', buyRouter);
 app.use('/sell', sellconfirmRouter);
 app.use('/sell/proc', sellRouter);
 
@@ -133,12 +122,12 @@ app.use('/mypage/sellList', mypageSellListRouter);
 app.use('/mypage/favoriteList', mypageFavoriteListRouter);
 app.use('/mypage/profile', mypageProfileRouter);
 
-app.use("/getImage", imageRouter);
-app.use("/getStyleImage", imageStyleRouter);
-app.use("/uploadImage", uploadImageRouter);
-app.use("/uploadStyleImage", uploadStyleImageRouter);
+app.use('/getImage', imageRouter);
+app.use('/getStyleImage', imageStyleRouter);
+app.use('/uploadImage', uploadImageRouter);
+app.use('/uploadStyleImage', uploadStyleImageRouter);
 
-app.use("/main/loadproduct", mainLoadproductRoute);
+app.use('/main/loadproduct', mainLoadproductRoute);
 
 app.use((req, res, next) => {
   res.sendStatus(404);
