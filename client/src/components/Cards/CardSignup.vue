@@ -200,9 +200,7 @@ export default {
       USER_PHONE: '',
       USER_ADDRESS1: '',
       USER_ADDRESS2: '',
-      POST_CODE: '',
-      baseURL: 'http://localhost:8080',
-      clientBaseURL: 'http://localhost:3000'
+      POST_CODE: ''
     };
   },
   methods: {
@@ -223,7 +221,7 @@ export default {
 
       const checkSignUp = await axios
         .post(
-          `${this.baseURL}/auth/signup`,
+          `${this.$store.getters.ServerUrl}/auth/signup`,
           {
             USER_ID: this.USER_ID,
             USER_PASSWORD: this.USER_PASSWORD,
@@ -249,7 +247,7 @@ export default {
         localStorage.setItem('userId', checkSignUp.data.data.USER_ID);
         alert('회원가입이 완료되었습니다.');
       }
-      return (location.href = `${this.clientBaseURL}`);
+      return (location.href = `${this.$store.getters.LocalUrl}`);
     }
   }
 };

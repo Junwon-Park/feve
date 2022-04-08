@@ -125,8 +125,6 @@ export default {
   data() {
     return {
       navbarOpen: false,
-      clientBaseURL: 'http://localhost:3000',
-      baseURL: 'http://localhost:8080',
       userId: ''
     };
   },
@@ -136,7 +134,9 @@ export default {
     },
     async submitLogout() {
       const logout = await axios
-        .get(`${this.baseURL}/auth/logout`, { withCredentials: true })
+        .get(`${this.$store.getters.ServerUrl}/auth/logout`, {
+          withCredentials: true
+        })
         .catch((err) => {
           console.error('logoutError', err);
         });
@@ -145,7 +145,7 @@ export default {
       localStorage.setItem('Authorization', accessToken);
       localStorage.setItem('userId', null);
       localStorage.setItem('userKey', null);
-      location.href = `${this.clientBaseURL}`;
+      location.href = `${this.$store.getters.LocalUrl}`;
     }
   },
   components: {
