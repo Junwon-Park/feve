@@ -68,7 +68,7 @@
           <div class="w-1/2">
             <router-link to="/auth/findpassword">
               <span class="text-blueGray-100">
-                <small>비밀번호를 잊어버리셨습니까?</small>
+                <small>비밀번호를 잊어버리셨습니까? / 비밀번호 변경</small>
               </span>
             </router-link>
           </div>
