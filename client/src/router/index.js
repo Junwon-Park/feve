@@ -34,32 +34,28 @@ import List2 from '@/views/List2.vue';
 import List3 from '@/views/List3.vue';
 import Write from '@/views/Write.vue';
 
-import Shoplist from "@/views/shop/Shoplist.vue";
-import Shopview from "@/views/shop/Shopview.vue";
-import Buy from "@/views/sold/Buypage.vue";
-import Buyproc from "@/views/sold/Buyconfirmpage.vue";
-import Buycomp from "@/views/sold/Buyconecpt.vue";
-import Cscenter from "@/views/cscenter/Cscenter.vue";
-import CscenterNotice from "@/views/cscenter/CscenterNotice.vue";
-import CscenterQna from "@/views/cscenter/CscenterQna.vue";
-import CscenterFaq  from "@/views/cscenter/CscenterFaq.vue";
-import CscenterInsert from "@/views/cscenter/CscenterInsert.vue";
-import CscenterStandard  from "@/views/cscenter/CscenterStandard.vue";
-import Buyselect from "@/views/sold/Buyselect.vue";
-import Buycomplete from "@/views/sold/Buycomplete.vue";
+import Shoplist from '@/views/shop/Shoplist.vue';
+import Shopview from '@/views/shop/Shopview.vue';
+import Buy from '@/views/sold/Buypage.vue';
+import Buyproc from '@/views/sold/Buyconfirmpage.vue';
+import Buycomp from '@/views/sold/Buyconecpt.vue';
+import Cscenter from '@/views/cscenter/Cscenter.vue';
+import CscenterNotice from '@/views/cscenter/CscenterNotice.vue';
+import CscenterQna from '@/views/cscenter/CscenterQna.vue';
+import CscenterFaq from '@/views/cscenter/CscenterFaq.vue';
+import CscenterInsert from '@/views/cscenter/CscenterInsert.vue';
+import CscenterStandard from '@/views/cscenter/CscenterStandard.vue';
+import Buyselect from '@/views/sold/Buyselect.vue';
+import Buycomplete from '@/views/sold/Buycomplete.vue';
 
-import Style from "@/views/style/Style.vue";
-import StyleView from "@/views/style/StyleView.vue";
+import Style from '@/views/style/Style.vue';
+import StyleView from '@/views/style/StyleView.vue';
 
-
-import Sellselect from "@/views/sold/Sellselect.vue";
-import Sellcomplete from "@/views/sold/Sellcomplete.vue";
-import Sell from "@/views/sold/Sellpage.vue";
-import Sellproc from "@/views/sold/Sellconfirmpage.vue";
-import Sellcomp from "@/views/sold/Sellconecpt.vue";
-
-
-
+import Sellselect from '@/views/sold/Sellselect.vue';
+import Sellcomplete from '@/views/sold/Sellcomplete.vue';
+import Sell from '@/views/sold/Sellpage.vue';
+import Sellproc from '@/views/sold/Sellconfirmpage.vue';
+import Sellcomp from '@/views/sold/Sellconecpt.vue';
 
 Vue.use(VueRouter);
 
@@ -96,14 +92,14 @@ const routes = [
         component: CscenterList
       },
       {
-        path: "/admin/inspectionList",
-        component: InspectionList,
+        path: '/admin/inspectionList',
+        component: InspectionList
       },
       {
-        path: "/admin/addProduct",
-        component: AddProduct,
-      },
-    ],
+        path: '/admin/addProduct',
+        component: AddProduct
+      }
+    ]
   },
   {
     path: '/auth',
@@ -133,19 +129,19 @@ const routes = [
     component: Index
   },
   {
-    path: "/style",
-    component: Style,
+    path: '/style',
+    component: Style
   },
   {
-    path: "/style/:USER_KEY",
-    name:'StyleView',
+    path: '/style/:USER_KEY',
+    name: 'StyleView',
     component: StyleView,
-    props: true,
+    props: true
   },
 
   {
-    path: "/profile",
-    component: Profile,
+    path: '/profile',
+    component: Profile
   },
   {
     path: '/list',
@@ -184,30 +180,30 @@ const routes = [
     component: Buycomplete
   },
   {
-    path: "/sell",
-    component: Sell,
+    path: '/sell',
+    component: Sell
   },
   {
-    path: "/sell/sel",
-    component: Sellselect,
+    path: '/sell/sel',
+    component: Sellselect
   },
   {
-    path: "/sell/proc",
-    component: Sellproc,
+    path: '/sell/proc',
+    component: Sellproc
   },
   {
-    path: "/sell/comp",
-    component: Sellcomp,
+    path: '/sell/comp',
+    component: Sellcomp
   },
   {
-    path: "/sell/complete",
-    component: Sellcomplete,
+    path: '/sell/complete',
+    component: Sellcomplete
   },
-  
-  {
-    path: "/shop",
-    component: Shoplist,
 
+  {
+    path: '/shop',
+    component: Shoplist
+  },
   {
     path: '/shop',
     component: Shoplist
@@ -240,11 +236,10 @@ const routes = [
     component: CscenterStandard
   },
   {
-    path: "/cscenterInsert",
-    component: CscenterInsert,
-
+    path: '/cscenterInsert',
+    component: CscenterInsert
   },
-  { path: "/:pathMatch(.*)*", redirect: "/" },
+  { path: '/:pathMatch(.*)*', redirect: '/' }
 ];
 
 const router = new VueRouter({
