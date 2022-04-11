@@ -5,10 +5,8 @@
       <div class="flex items-center pt-5">
         <div class="w-full px-4 mr-auto ml-auto mt-5">
           <div class="justify-center flex relative items-center flex-col">
-            <div class="my-4 w-full  flex flex-wrap  flex-row">
-              <div
-                  class="w-full md:w-6/12 xl:w-2/12 text-center mt-8 px-3 "
-              >
+            <div class="my-4 w-full flex flex-wrap flex-row">
+              <div class="w-full md:w-6/12 xl:w-2/12 text-center mt-8 px-3">
                 <div class="py-3 bg-emerald-500 rounded-lg">
                   <p class="text-lg text-white mt-4 font-semibold">#LEGO</p>
                 </div>
@@ -50,19 +48,17 @@
           <hr />
 
           <div class="flex flex-wrap">
-          <MainCardProduct
+            <MainCardProduct
               v-for="(item, idx) in items"
               :key="idx"
               v-bind="item"
-              :items="items" />
-            </div>
+              :items="items"
+            />
           </div>
-
+        </div>
 
         <router-link to="/shop" class="mx-auto">
-          <v-btn outlined color="#999" class="px-5 mt-10">
-            더 보기
-          </v-btn>
+          <v-btn outlined color="#999" class="px-5 mt-10"> 더 보기 </v-btn>
         </router-link>
       </div>
 
@@ -97,18 +93,17 @@
           <h3 class="text-3xl mb-2 font-semibold leading-normal">NEW</h3>
           <hr />
           <div class="flex flex-wrap">
-          <MainCardProduct
+            <MainCardProduct
               v-for="(item, idx) in newItems"
               :key="idx"
               v-bind="item"
-              :items="newItems" />
-        </div>
+              :items="newItems"
+            />
+          </div>
         </div>
 
         <router-link to="/shop" class="mx-auto">
-          <v-btn outlined color="#999" class="px-5 mt-10">
-            더 보기
-          </v-btn>
+          <v-btn outlined color="#999" class="px-5 mt-10"> 더 보기 </v-btn>
         </router-link>
       </div>
     </section>
@@ -224,30 +219,34 @@ export default {
       profile,
       landing,
       baseURL: 'http://localhost:8080',
-      items:[{
-        PRODUCT_KEY: 0,
-        PRODUCT_NAME: '',
-        PRODUCT_BRAND: '',
-        PRODUCT_CATE: '',
-        PRODUCT_ORIPRICE: 0,
-        PRODUCT_MNUM: '',
-        PRODUCT_PIC: "",
-        PRODUCT_DELETE:'',
-        PRODUCT_DESC: "",
-        SELL_PRICE:0
-      }],
-      newItems:[{
-        PRODUCT_KEY: 0,
-        PRODUCT_NAME: '',
-        PRODUCT_BRAND: '',
-        PRODUCT_CATE: '',
-        PRODUCT_ORIPRICE: 0,
-        PRODUCT_MNUM: '',
-        PRODUCT_PIC: "",
-        PRODUCT_DELETE:'',
-        PRODUCT_DESC: "",
-        SELL_PRICE:0
-      }]
+      items: [
+        {
+          PRODUCT_KEY: 0,
+          PRODUCT_NAME: '',
+          PRODUCT_BRAND: '',
+          PRODUCT_CATE: '',
+          PRODUCT_ORIPRICE: 0,
+          PRODUCT_MNUM: '',
+          PRODUCT_PIC: '',
+          PRODUCT_DELETE: '',
+          PRODUCT_DESC: '',
+          SELL_PRICE: 0
+        }
+      ],
+      newItems: [
+        {
+          PRODUCT_KEY: 0,
+          PRODUCT_NAME: '',
+          PRODUCT_BRAND: '',
+          PRODUCT_CATE: '',
+          PRODUCT_ORIPRICE: 0,
+          PRODUCT_MNUM: '',
+          PRODUCT_PIC: '',
+          PRODUCT_DELETE: '',
+          PRODUCT_DESC: '',
+          SELL_PRICE: 0
+        }
+      ]
     };
   },
   methods: {
@@ -265,29 +264,29 @@ export default {
         const accessToken = checkResult.data.data.accessToken;
         localStorage.setItem('Authorization', accessToken);
       }
-    },
+    }
   },
   created() {
     this.checkToken();
 
     let that = this;
-    this.$axios.get('http://localhost:8080/main/loadproduct')
-        .then(function(res){
-          that.items=res.data;
-        })
-        .catch(function(err){
-          console.log(err);
-        });
+    this.$axios
+      .get('http://localhost:8080/main/loadproduct')
+      .then(function (res) {
+        that.items = res.data;
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
 
-    this.$axios.get('http://localhost:8080/main/loadproduct/new')
-        .then(function(res){
-          that.newItems=res.data;
-        })
-        .catch(function(err){
-          console.log(err);
-        });
-
-
+    this.$axios
+      .get('http://localhost:8080/main/loadproduct/new')
+      .then(function (res) {
+        that.newItems = res.data;
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
   },
   components: {
     Slide,
