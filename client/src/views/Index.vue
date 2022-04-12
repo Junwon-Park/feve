@@ -218,7 +218,6 @@ export default {
       login,
       profile,
       landing,
-      baseURL: 'http://localhost:8080',
       items: [
         {
           PRODUCT_KEY: 0,

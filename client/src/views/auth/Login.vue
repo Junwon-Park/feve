@@ -144,6 +144,7 @@ export default {
         localStorage.setItem('userId', userData.data.data.USER_ID);
         localStorage.setItem('userAdmin', userData.data.data.USER_ADMIN);
         localStorage.setItem('userKey', userData.data.data.USER_KEY);
+        localStorage.setItem('googleLogin', false);
         return (location.href = `${this.$store.getters.LocalUrl}`);
       }
     },
