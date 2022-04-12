@@ -89,6 +89,7 @@ export default {
     this.$axios.get('http://localhost:8080/admin/count/sell/total')
         .then(function(res){
           that.countTotalSell = res.data[0].cnt;
+          //console.log(res.data[0].cnt)
         })
         .catch(function(err){
           console.log(err);
@@ -115,10 +116,10 @@ export default {
 
     this.$axios.get('http://localhost:8080/admin/count/bef/buy/total')
         .then(function(res){
-          console.log(res.data);
-          console.log("buytotal",res.data[0].cnt)
+          //console.log(res.data);
+          //console.log("buytotal",res.data[0].cnt)
           that.beforeCountTotalBuy = res.data[0].cnt;
-          console.log("that.beforeCountTotalBuy",that.beforeCountTotalBuy)
+          //console.log("that.beforeCountTotalBuy",that.beforeCountTotalBuy)
         })
         .catch(function(err){
           console.log(err);
@@ -126,10 +127,10 @@ export default {
 
     this.$axios.get('http://localhost:8080/admin/count/bef/sell/total')
         .then(function(res){
-          console.log(res.data);
-          console.log("selltotal",res.data[0].cnt)
+          //console.log(res.data);
+         // console.log("selltotal",res.data[0].cnt)
           that.beforeCountTotalSell = res.data[0].cnt;
-          console.log("that.beforeCountTotalSell",that.beforeCountTotalSell)
+          //console.log("that.beforeCountTotalSell",that.beforeCountTotalSell)
         })
         .catch(function(err){
           console.log(err);
@@ -137,10 +138,10 @@ export default {
 
     this.$axios.get('http://localhost:8080/admin/count/bef/deal/total')
         .then(function(res){
-          console.log(res.data);
-          console.log("dealtotal",res.data[0].cnt)
+          //console.log(res.data);
+          //console.log("dealtotal",res.data[0].cnt)
           that.beforeCountTotalDeal = res.data[0].cnt;
-          console.log("that.beforeCountTotalDeal",that.beforeCountTotalDeal)
+          //console.log("that.beforeCountTotalDeal",that.beforeCountTotalDeal)
         })
         .catch(function(err){
           console.log(err);
@@ -200,6 +201,7 @@ export default {
     this.$axios.get('http://localhost:8080/admin/count/bid/sell')
         .then(function(res){
           that.bidSellArray = res.data;
+          console.log(that.bidSellArray)
 
           for(let i=0; i<that.bidSellArray.length;i++) {
             if(that.bidSellArray[i].cnt===null) {

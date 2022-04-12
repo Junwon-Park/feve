@@ -19,9 +19,9 @@
             <div class="flex flex-wrap mt-5">
               <div class="relative w-full max-w-full flex-grow flex-1 text-right">
                 <div class="text-left">
-                  <v-chip class="ma-2" color="#f4f4f4"> 전체 </v-chip>
-                  <v-chip class="ma-2" color="#f4f4f4"> 레고 </v-chip>
-                  <v-chip class="ma-2" color="#f4f4f4"> 베어브릭 </v-chip>
+                  <v-chip class="ma-2" color="#f4f4f4"  onclick="location.href='/cscenterFaq'" style="cursor:pointer;"> 이용정책 </v-chip>
+                  <v-chip class="ma-2" color="#f4f4f4" onclick="location.href='/cscenterFaq2'" style="cursor:pointer;"> 구매 </v-chip>
+                  <v-chip class="ma-2" color="#f4f4f4" onclick="location.href='/cscenterFaq3'" style="cursor:pointer;"> 판매 </v-chip>
                 </div>
               </div>
             </div>
@@ -45,6 +45,7 @@
 <script>
 import CscenterSidebar from "@/components/Sidebar/CscenterSidebar.vue";
 import CscenterFaqList from "@/components/Cards/Cscenter/CscenterFaqList.vue";
+
 // import Pagination from "@/components/Pagination.vue" ;
 
 export default {
@@ -69,6 +70,7 @@ export default {
   components: {
     CscenterSidebar,
     CscenterFaqList,
+  
     //Pagination,
   },
 

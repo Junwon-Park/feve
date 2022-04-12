@@ -8,12 +8,13 @@
     
     <mypage-list-filter
       :filter="curFilter"
+      ref="listFilter"
       @onFilterChanged="onFilterChanged"
       @onOrderClicked="onOrderClicked"
-      class="mt-3 divide-y-b-gray"
+      class="divide-y-b-gray"
     />
 
-    <div class="grid ">
+    <div class="grid" v-if="list.length > 0">
       <mypage-list-slot 
         v-for="item in list" :key="item.BUY_KEY"
         :item="item"
@@ -31,6 +32,9 @@
         color="black"
         class="my-4"
       ></v-pagination>
+    </div>
+    <div v-else style="text-align:center; margin-top:4rem;">
+      검색 결과가 없습니다.
     </div>
   </div>
 </template>
@@ -155,6 +159,8 @@ export default {
       this.curOrderIdx = -1,
       this.orderColumn ='';
       this.orderDir = 0;
+
+      this.$refs.listFilter.initOrder();
     },
 
     setUrl()
@@ -311,8 +317,12 @@ export default {
       this.curOrderIdx = idx;
       this.orderColumn = this.curFilter.orderColumn[idx];
 
-      this.goToFirstPage();
-      this.getList();
+      if(this.list != null && this.list.length > 0)
+      {
+        this.goToFirstPage();
+        this.getListCount();
+        this.getList();
+      }
     },
     
     onFilterChanged(selected){

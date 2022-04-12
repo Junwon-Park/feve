@@ -31,7 +31,7 @@
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left"
             >
-            <span class="block" onclick="location.href='/cscenterNotice1'">[공지] 안녕하세요. FEVE 공지 사항 입니다.</span>
+            <span class="block" onclick="location.href='/cscenterNotice1'">[공지] 안녕하세요. FEVE 점검 안내 입니다.</span>
               <small>2022-04-01</small>
               <br><br><br>
              
@@ -45,6 +45,9 @@
             </td>
           </tr>
         </tbody>
+        <div class="form-row float-right mt-10">
+        <v-btn depressed color="black" style="color: white !important;;" to="/Cscenter"> 돌아가기 </v-btn>
+      </div>
       </table>
     </div>
   </div>

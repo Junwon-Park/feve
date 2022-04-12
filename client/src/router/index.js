@@ -46,6 +46,12 @@ import CscenterFaq from '@/views/cscenter/CscenterFaq.vue';
 import CscenterInsert from '@/views/cscenter/CscenterInsert.vue';
 import CscenterStandard from '@/views/cscenter/CscenterStandard.vue';
 import CscenterNotice1 from '@/views/cscenter/CscenterNotice1.vue';
+import CscenterNotice2 from '@/views/cscenter/CscenterNotice2.vue';
+import CscenterNotice3 from '@/views/cscenter/CscenterNotice3.vue';
+import CscenterNotice4 from '@/views/cscenter/CscenterNotice4.vue';
+import CscenterNotice5 from '@/views/cscenter/CscenterNotice5.vue';
+import CscenterFaq2 from '@/views/cscenter/CscenterFaq2.vue';
+import CscenterFaq3 from '@/views/cscenter/CscenterFaq3.vue';
 import Buyselect from '@/views/sold/Buyselect.vue';
 import Buycomplete from '@/views/sold/Buycomplete.vue';
 
@@ -167,46 +173,49 @@ const routes = [
   },
   {
     path: '/buy/sel/:PRODUCT_KEY',
+    name: 'Buy',
     component: Buy
   },
   {
-    path: '/buy/proc/:PRODUCT_KEY',
+    path: '/buy/sel/proc/:PRODUCT_KEY',
+    name: 'Buyproc',
     component: Buyproc
   },
   {
-    path: '/buy/proc/com/:PRODUCT_KEY',
+    path: '/buy/sel/proc/co/:PRODUCT_KEY',
+    name: 'Buycomp',
     component: Buycomp
   },
   {
-    path: '/buy/proc/complete/:PRODUCT_KEY',
+    path: '/buy/sel/proc/co/complete/:PRODUCT_KEY',
+    name: 'Buycomplete',
     component: Buycomplete
   },
   {
-    path: '/sell',
+    path: '/sell/:PRODUCT_KEY',
+    name: 'Sellselect',
     component: Sellselect
   },
   {
-    path: '/sell/sel',
+    path: '/sell/sel/:PRODUCT_KEY',
+    name:'Sell',
+    
     component: Sell
   },
   {
-    path: '/sell/proc',
+    path: '/sell/sel/proc/:PRODUCT_KEY',
+    name: 'Sellproc',
     component: Sellproc
   },
   {
-    path: '/sell/proc/com',
+    path: '/sell/sel/proc/co/:PRODUCT_KEY',
+    name: 'Sellcomp',
     component: Sellcomp
   },
   {
-    path: '/buy/proc/complete',
+    path: '/sell/sel/proc/co/complete/:PRODUCT_KEY',
+    name: 'Sellcomplete',
     component: Sellcomplete
-  },
- 
-
-
-  {
-    path: '/shop',
-    component: Shoplist
   },
   {
     path: '/shop',
@@ -246,6 +255,30 @@ const routes = [
   {
     path: '/cscenterNotice1',
     component: CscenterNotice1
+  },
+  {
+    path: '/cscenterNotice2',
+    component: CscenterNotice2
+  },
+  {
+    path: '/cscenterNotice3',
+    component: CscenterNotice3
+  },
+  {
+    path: '/cscenterNotice4',
+    component: CscenterNotice4
+  },
+  {
+    path: '/cscenterNotice5',
+    component: CscenterNotice5
+  },
+  {
+    path: '/cscenterFaq2',
+    component: CscenterFaq2
+  },
+  {
+    path: '/cscenterFaq3',
+    component: CscenterFaq3
   },
   { path: '/:pathMatch(.*)*', redirect: '/' }
 ];

@@ -56,10 +56,10 @@
                       
                       <div>
                         <v-btn x-large style="width:100%; background-color:transparent" class="mt-3"> 
-                            <v-btn v-if="!this.likeStatus" icon color="pink"  @click="goLike()" ref="like">
+                            <v-btn v-if="!this.likeStatus" icon color="pink"  @click="goLike()">
                             <v-icon>mdi-heart-outline</v-icon>
                             </v-btn>
-                            <v-btn v-else icon color="pink"  @click="goDislike()" ref="dislike">
+                            <v-btn v-else icon color="pink"  @click="goDislike()">
                             <v-icon>mdi-heart</v-icon>
                             </v-btn>
                           <div>관심상품</div>
@@ -72,11 +72,13 @@
                   <div class="w-full flex-wrap mt-6">
                     <b class="text-lg">상품정보</b>
                     <div class="text-center mt-2  text-sm" style="border:black;">
-                      <div style="width:33%; float:left; padding-right:10px;">
-                        <p class="mb-1">모델번호</p>
-                        <p>{{PRODUCT_MNUM}}</p>
+                      <div style="width:33%; float:left; padding-right:10px; border-right-style: solid; border-right-width: 1px;">
+                        <div>
+                          <p class="mb-1">모델번호</p>
+                          <p>{{PRODUCT_MNUM}}</p>
+                        </div>
                       </div>
-                      <div style="width:33%; float:left; padding-right:10px;">
+                      <div style="width:33%; float:left; padding-right:10px; border-right-style: solid; border-right-width: 1px;">
                         <p class="mb-1">출시일</p>
                         <p>{{PRODUCT_LDATE}}</p>
                       </div>
@@ -199,14 +201,18 @@ export default {
     // }, 1000)
       this.getRecentPrice();
     },
+    updated() {
+      this.countLike();
+      this.countLikeTotal();
+    },
     methods:{
       getView:function(){
         var vm = this;
         this.PRODUCT_KEY = this.$route.params.PRODUCT_KEY;
         this.$axios.get('http://localhost:8080/shop/shopview/'+ this.PRODUCT_KEY)
             .then(function(res){
-              console.log("디비에서 결과 가져옴", res);
-              console.log("res.data값은?", res.data);
+              //console.log("디비에서 결과 가져옴", res);
+              //console.log("res.data값은?", res.data);
               vm.PRODUCT_NAME = res.data[0].PRODUCT_NAME;
               vm.PRODUCT_BRAND = res.data[0].PRODUCT_BRAND =='LE'? '레고':'베어브릭';
               vm.PRODUCT_DESC = res.data[0].PRODUCT_DESC;
@@ -246,7 +252,7 @@ export default {
       },
       goLike:function(){
         var vm = this;
-        console.log("좋아요 버튼 누름");
+        //console.log("좋아요 버튼 누름");
         if(this.user_key == null )
         { 
           alert("로그인 후 이용해 주세요");
@@ -302,11 +308,11 @@ export default {
       },
       countLikeTotal:function(){
         var vm = this;
-        console.log("좋아요 몇개인지 확인");
+        //console.log("좋아요 몇개인지 확인");
         this.$axios.post('http://localhost:8080/shop/shopview/'+ this.PRODUCT_KEY + '/countLikeTotal',
         {product_key: this.PRODUCT_KEY})
             .then(function(res){
-              console.log("countLikeTotal 결과는?", res);
+              //console.log("countLikeTotal 결과는?", res);
               vm.likeTotal = res.data;
             })
             .catch(function(err){
@@ -325,8 +331,8 @@ export default {
                 vm.PRICES = res.data;
                 vm.PRICES.SELL_PRICE = '-';
                 vm.PRICES.SELL_EDATE = '-';
-                console.log(vm.RECENT_PRICE);
-                console.log(vm.PRICES);
+                //console.log(vm.RECENT_PRICE);
+                //console.log(vm.PRICES);
               }
               else
               {
@@ -408,8 +414,8 @@ export default {
             }); 
       },
       goBuy:function(){
-        console.log("구매 버튼 클릭");
-        console.log("product_key 넘어가는지 확인",this.PRODUCT_KEY);
+        //console.log("구매 버튼 클릭");
+        //console.log("product_key 넘어가는지 확인",this.PRODUCT_KEY);
         if(this.user_key == null )
         { 
           alert("로그인 후 이용해 주세요");
@@ -421,21 +427,22 @@ export default {
           params:{
             PRODUCT_KEY:this.PRODUCT_KEY}
           });
-        //   if(this.$route.path!=='/buy') 
-        // this.$router.push({path:'/buy',
-        // params:{
-        //   PRODUCT_KEY:this.PRODUCT_KEY}
-        //   });
         }
       },
       goSell:function(){
-        console.log("판매 버튼 클릭");
-        // console.log("product_key 넘어가는지 확인",this.PRODUCT_KEY);
-        // if(this.$route.path!=='/sell') 
-        // this.$router.push({path:'/sell',
-        // params:{
-        //   PRODUCT_KEY:this.PRODUCT_KEY}
-        //   });
+        //console.log("판매 버튼 클릭");
+        if(this.user_key == null )
+        { 
+          alert("로그인 후 이용해 주세요");
+          this.$router.push({path:'/auth'});
+        }  
+        else{
+          this.$router.push({path:'/sell' ,
+          name:'Sellselect',
+          params:{
+            PRODUCT_KEY:this.PRODUCT_KEY}
+          });
+        }
       },
       scrollToTop() {
 
