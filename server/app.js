@@ -134,14 +134,6 @@ if (fs.existsSync('./certKey/key.pem') && fs.existsSync('./certKey/cert.pem')) {
   const certificate = fs.readFileSync(__dirname + '/certKey/cert.pem', 'utf8');
   const credentials = { key: privateKey, cert: certificate };
 
-const io = new Server(server, {
-  cors: {
-    origin: 'http://localhost:3000',
-    credentials: true
-  },
-  allowEIO3: true
-});
-
   server = https.createServer(credentials, app);
   server.listen(PORT, () =>
     console.log(`HTTPS server running on port ${PORT} successfully!!!`)
@@ -152,7 +144,13 @@ const io = new Server(server, {
   });
 }
 
-module.exports = server;
+const io = new Server(server, {
+  cors: {
+    origin: 'https://localhost:3000',
+    credentials: true
+  },
+  allowEIO3: true
+});
 
 io.on('connection', function (socket) {
   socket.on('chat', (msg) => {

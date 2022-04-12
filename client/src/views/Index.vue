@@ -267,11 +267,51 @@ export default {
     }
   },
   created() {
-    this.checkToken();
+    if (this.$store.state.googleLogin === 'false') {
+      this.checkToken();
+    }
+    if (this.$store.state.googleLogin === 'false') {
+      const url = new URL(window.location.href);
+      const authorizationCode = url.searchParams.get('code');
+      if (authorizationCode) {
+        axios
+          .post(
+            `${this.$store.getters.ServerUrl}/auth/google`,
+            {
+              authorizationCode
+            },
+            { headers: { accept: `application/json` } }
+          )
+          .then((data) => {
+            console.log(data.data.data.accessToken);
+            console.log(data.data.data.userInfo.name);
+
+            // if (!data.data) {
+            //   alert('로그인에 실패했습니다.');
+            //   console.log('Login is failed!!!');
+            //   return location.reload();
+            // } else {
+            const userName = data.data.data.userInfo.name;
+            const accessToken = data.data.data.accessToken;
+            localStorage.setItem('isLogin', true);
+            localStorage.setItem('Authorization', accessToken);
+            localStorage.setItem('userId', userName);
+            localStorage.setItem('userAdmin', 0);
+            localStorage.setItem('googleLogin', true);
+            return location.reload();
+            // }
+          })
+          .catch((err) => {
+            console.error('Access token is undefined', err);
+          });
+      }
+    }
+
+    // this.checkToken();
 
     let that = this;
     this.$axios
-      .get('http://localhost:8080/main/loadproduct')
+      .get('https://localhost:8080/main/loadproduct')
       .then(function (res) {
         that.items = res.data;
       })
@@ -280,7 +320,7 @@ export default {
       });
 
     this.$axios
-      .get('http://localhost:8080/main/loadproduct/new')
+      .get('https://localhost:8080/main/loadproduct/new')
       .then(function (res) {
         that.newItems = res.data;
       })

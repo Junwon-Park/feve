@@ -14,7 +14,8 @@ const store = new Vuex.Store({
     isLogin: JSON.parse(localStorage.getItem('isLogin')),
     accessToken: localStorage.getItem('Authorization'),
     userId: localStorage.getItem('userId'),
-    userAdmin: localStorage.getItem('userAdmin')
+    userAdmin: localStorage.getItem('userAdmin'),
+    googleLogin: localStorage.getItem('googleLogin')
   },
   modules: { authStore },
   plugins: [authState],
@@ -29,10 +30,10 @@ const store = new Vuex.Store({
       return 'https://accounts.google.com/o/oauth2/v2/auth?client_id=237233087109-1v95u6a4qm3htd2a0hlhorhlo64ppj60.apps.googleusercontent.com&response_type=code&redirect_uri=https://localhost:3000&scope=https://www.googleapis.com/auth/userinfo.profile';
     },
     googleLogOutUrl() {
-      return 'https://oauth2.googleapis.com/revoke?token=ya29.A0ARrdaM839sa95XJhXb8ctrby3odFVuUmbDB09kTlleEDJ2HtX5EyCK-xKjscJml6WLglGKCfkqdNGHUv8jIZsyPAPx8hazEo5Vo6_llX-DdBDGCqxb1L7HLw9BTbGsb2LmE3uikIo3YEcs0KrpxV4Ful9A4y';
+      return `https://oauth2.googleapis.com/revoke?token=`;
     },
     adminPage() {
-      return 'http://localhost:3000/admin';
+      return 'https://localhost:3000/admin';
     }
   }
 });

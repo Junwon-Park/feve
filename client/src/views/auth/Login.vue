@@ -149,10 +149,6 @@ export default {
     },
     async submitGooleLogin() {
       window.location.assign(this.$store.getters.googleLoginUrl);
-    },
-    async submitGooleLogOut() {
-      const logout = await axios.post(this.$store.getters.googleLogOutUrl);
-      console.log(logout);
     }
   }
 };

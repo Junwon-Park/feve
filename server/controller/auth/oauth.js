@@ -11,7 +11,7 @@ const googleOauth = async (req, res) => {
       headers: { 'content-type': 'application/x-www-form-urlencoded' }
     })
     .catch((err) => console.error('Google oauth access token error!!!', err));
-  console.log(googleResponse);
+
   if (!googleResponse) {
     return res.json({ message: 'Google login is failed!!!' });
   } else {
