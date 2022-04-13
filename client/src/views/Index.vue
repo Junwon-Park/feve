@@ -317,8 +317,6 @@ export default {
       }
     }
 
-    // this.checkToken();
-
     let that = this;
     this.$axios
       .get('https://localhost:8080/main/loadproduct')
@@ -338,6 +336,7 @@ export default {
         console.log(err);
       });
   },
+
   components: {
     Slide,
     MainCardProduct,
