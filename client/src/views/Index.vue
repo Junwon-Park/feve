@@ -266,10 +266,21 @@ export default {
     }
   },
   created() {
+    if (!(this.$store.state.googleLogin || this.$store.state.isLogin)) {
+      localStorage.setItem('isLogin', false);
+      localStorage.setItem('Authorization', null);
+      localStorage.setItem('userId', null);
+      localStorage.setItem('userAdmin', null);
+      localStorage.setItem('googleLogin', false);
+    }
+
     if (this.$store.state.googleLogin === 'false') {
       this.checkToken();
     }
-    if (this.$store.state.googleLogin === 'false') {
+    if (
+      this.$store.state.googleLogin === 'false' ||
+      !this.$store.state.googleLogin
+    ) {
       const url = new URL(window.location.href);
       const authorizationCode = url.searchParams.get('code');
       if (authorizationCode) {
