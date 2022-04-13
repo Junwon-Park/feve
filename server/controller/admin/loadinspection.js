@@ -5,6 +5,7 @@ const { User } = require('../../models');
 const db = require('../../models');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const moment=require('moment');
 
 async function loadTotalcntinspection(req, res, next) {
     await db.sequelize
@@ -50,6 +51,18 @@ async function loadinspection(req, res, next) {
         )
     .then((result) => {
       console.log(result);
+
+        result.map(x=> {
+            if (x.INSPECTION_DATE != null) {
+                x.INSPECTION_DATE = moment(x.INSPECTION_DATE).format('YYYY-MM-DD HH:mm:ss');
+            }
+            if (x.INSPECTION_ADATE != null) {
+                x.INSPECTION_ADATE = moment(x.INSPECTION_ADATE).format('YYYY-MM-DD HH:mm:ss');
+            }
+            if (x.INSPECTION_RDATE != null) {
+                x.INSPECTION_RDATE = moment(x.INSPECTION_RDATE).format('YYYY-MM-DD HH:mm:ss');
+            }
+        })
       res.json(result);
     })
     .catch((err) => console.log(err));
@@ -88,6 +101,18 @@ async function loadinspecone(req, res, next) {
         )
         .then(result => {
             console.log(result);
+
+            result.map(x=>{
+                if (x.INSPECTION_DATE != null) {
+                    x.INSPECTION_DATE = moment(x.INSPECTION_DATE).format('YYYY-MM-DD HH:mm:ss');
+                }
+                if (x.INSPECTION_ADATE != null) {
+                    x.INSPECTION_ADATE = moment(x.INSPECTION_ADATE).format('YYYY-MM-DD HH:mm:ss');
+                }
+                if (x.INSPECTION_RDATE != null) {
+                    x.INSPECTION_RDATE = moment(x.INSPECTION_RDATE).format('YYYY-MM-DD HH:mm:ss');
+                }
+            })
             res.json(result);
         })
         .catch(err => console.log(err));
@@ -118,6 +143,17 @@ async function loadinspectionLimit(req, res, next) {
         )
         .then((result) => {
             console.log(result);
+            result.map(x=>{
+                if (x.INSPECTION_DATE != null) {
+                    x.INSPECTION_DATE = moment(x.INSPECTION_DATE).format('YYYY-MM-DD HH:mm:ss');
+                }
+                if (x.INSPECTION_ADATE != null) {
+                    x.INSPECTION_ADATE = moment(x.INSPECTION_ADATE).format('YYYY-MM-DD HH:mm:ss');
+                }
+                if (x.INSPECTION_RDATE != null) {
+                    x.INSPECTION_RDATE = moment(x.INSPECTION_RDATE).format('YYYY-MM-DD HH:mm:ss');
+                }
+            })
             res.json(result);
         })
         .catch((err) => console.log(err));

@@ -6,7 +6,7 @@
     <router-view />
       <Chat />
     <footer-component
-        :class="{'md:ml-64' :isAdmin}" />
+        :class="[{ 'md:ml-64' :isMypage }, {'md:ml-64' :isAdmin}]" />
     </v-main>
   </v-app>
 </template>
@@ -19,12 +19,22 @@ export default {
   data() {
     return {
       isAdmin: false,
+      isMypage: false,
     };
   },
   created(){
     let path =this.$route.path.split('/');
     if(path[1] === 'admin'){
       this.isAdmin = true
+      return;
+    }
+
+    for(let p of path)
+    {
+      if(p === 'mypage'){
+        this.isMypage = true;
+        return;
+      }
     }
   },
   components: {

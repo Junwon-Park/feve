@@ -39,18 +39,6 @@
                   v-model="inputPw"
                 />
               </div>
-              <div>
-                <label class="inline-flex items-center cursor-pointer">
-                  <input
-                    id="customCheckLogin"
-                    type="checkbox"
-                    class="form-checkbox border-1 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                  />
-                  <span class="ml-2 text-sm font-semibold text-blueGray-600">
-                    아이디 기억하기
-                  </span>
-                </label>
-              </div>
 
               <div class="text-center mt-6">
                 <button
@@ -138,14 +126,18 @@ export default {
         });
 
       if (userData) {
-        // Login successed
-        localStorage.setItem('Authorization', userData.data.data.accessToken);
-        localStorage.setItem('isLogin', true);
-        localStorage.setItem('userId', userData.data.data.USER_ID);
-        localStorage.setItem('userAdmin', userData.data.data.USER_ADMIN);
-        localStorage.setItem('userKey', userData.data.data.USER_KEY);
-        localStorage.setItem('googleLogin', false);
-        return (location.href = `${this.$store.getters.LocalUrl}`);
+        if (!Number(userData.data.data.USER_DELETE)) {
+          // Login successed
+          localStorage.setItem('Authorization', userData.data.data.accessToken);
+          localStorage.setItem('isLogin', true);
+          localStorage.setItem('userId', userData.data.data.USER_ID);
+          localStorage.setItem('userAdmin', userData.data.data.USER_ADMIN);
+          localStorage.setItem('userKey', userData.data.data.USER_KEY);
+          return (location.href = `${this.$store.getters.LocalUrl}`);
+        } else {
+          alert('로그인에 실패했습니다.');
+          return (location.href = `${this.$store.getters.LocalUrl}`);
+        }
       }
     },
     async submitGooleLogin() {

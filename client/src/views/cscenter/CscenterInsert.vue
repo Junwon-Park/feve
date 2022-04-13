@@ -1,7 +1,7 @@
 <template>
   <div>
     <main class="md:ml-64">
-      <section class="mt-16 relative block py-24 lg:pt-0">
+      <section class="mt-20 relative block py-24 lg:pt-3">
         <div class="container mx-auto px-4">
           <div class="flex flex-wrap justify-center">
             <div class="w-full ">
@@ -40,7 +40,8 @@
                           type="text"
                           class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                           placeholder="작성자"
-                          v-model="cscenter.user_key"
+                          readonly
+                         :value="userInfo.USER_NAME"
                       />
                     </div>
 
@@ -113,7 +114,14 @@ export default {
         cscenter_status: '',
         user_key: JSON.parse(localStorage.getItem('userKey')),
         default: "0",
-      }
+        user_name:''
+      },
+      userInfo: {
+        USER_NAME: '',
+        USER_MAIL: '',
+        USER_KEY: '',
+        USER_ID:'',
+      },
     };
   },
 
@@ -134,6 +142,7 @@ export default {
           cscenter_contents: this.cscenter.cscenter_contents,
           cscenter_wdate: kr_curr,
           cscenter_status: this.cscenter.cscenter_status,
+          user_name:this.cscenter.user_name,
           user_key:this.cscenter.user_key
           
       })
@@ -144,7 +153,23 @@ export default {
           .catch((error) => {
             console.log(error);
           }); 
-    }
+    },
+
+    getSimpleUserInfo(){
+      this.$axios.post('http://localhost:8080/mypage/getSimpleUserInfo', {
+        USER_KEY : JSON.parse(localStorage.getItem('userKey'))
+      })
+          .then((result) => {
+            this.userInfo = result.data;
+            console.log(result.data)
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+    },
+  },
+  created(){
+    this.getSimpleUserInfo()()
   }
 };
 </script>

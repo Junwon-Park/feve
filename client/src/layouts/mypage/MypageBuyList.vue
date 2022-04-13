@@ -18,7 +18,7 @@
       <mypage-list-slot 
         v-for="item in list" :key="item.BUY_KEY"
         :item="item"
-        :slotKey="item.BUY_KEY"
+        :isFromBuy="0"
         :price="item.BUY_PRICE"
         :eDate="item.strEDate"
         @onFinalizeClicked="onFinalizeClicked"
@@ -69,13 +69,13 @@ export default {
         },
         {
           tapIdx:1,
-          slotStates:["전체", "대기 중", "발송완료", "입고대기", "입고완료", "검수 중", "검수보류","검수합격", "배송 중", "거래실패"],
+          slotStates:["전체", "발송대기", "발송완료", "입고대기", "입고완료", "검수 중", "검수보류","검수합격", "배송 중", "거래실패"],
           orderTexts:["상태"],
           orderColumn:["BUY_STATUS"],
         },
         {
           tapIdx:2,
-          slotStates:["전체", "구매확정", "구매취소"],
+          slotStates:["전체", "구매확정", "취소완료"],
           orderTexts:["구매일", "상태"],
           orderColumn:["BUY_EDATE", "BUY_STATUS"],
         }
@@ -99,8 +99,6 @@ export default {
       orderColumn: String,
       strOrderDirs:["ASC","DESC"],
       orderDir: 0,
-
-      finalizeDecision: 0,
     }
   },
   created() {
@@ -114,7 +112,6 @@ export default {
   methods: {
     getUserKey()
     {
-      //return '1';
       return localStorage.getItem('userKey');
     },
 
@@ -123,7 +120,7 @@ export default {
         USER_KEY : this.getUserKey(),
       })
       .then((result) => {
-        //console.log(result.data);
+        console.log(result.data);
         this.counts = result.data;
       })
       .catch((error) => {
@@ -143,6 +140,7 @@ export default {
       this.totalPage = 0;
       this.goToFirstPage();
       this.setUrl();
+      this.getBuyCounts();
     },
     
     goToFirstPage(){
@@ -213,7 +211,7 @@ export default {
         state : this.selectedFilterIdx,
       })
       .then((result) => {
-        //console.log(result.data);
+        console.log(result.data);
         this.totalPage = Math.ceil(result.data / this.slotCountPerPage);  
       })
       .catch((error) => {
@@ -249,6 +247,16 @@ export default {
       {
         slot.strEDate = moment(slot.BUY_EDATE).format('ll');
 
+          //if(slot.sell_status != '0' && slot.sell_status !='2')
+          {
+            //temp code - 임시로 data 가공.(직접쿼리 쓴것과 sequelize쓴거랑 데이터 형식이 다르게 옴)
+              slot.Product = {
+                PRODUCT_BRAND: slot.PRODUCT_BRAND,
+                PRODUCT_NAME: slot.PRODUCT_NAME,
+                PRODUCT_PIC: slot.PRODUCT_PIC,
+              };
+          }
+
         // 0.대기 1.성공(구매확정) 2.실패(기간만료) 3.진행중 4.실패(구매취소:반품)
         switch(slot.BUY_STATUS)
         {
@@ -264,18 +272,12 @@ export default {
           }
           //진행중
           case '3':{
-            //temp code - 진행중일때만 임시로 data 가공.
-            slot.Product = {
-              PRODUCT_BRAND: slot.PRODUCT_BRAND,
-              PRODUCT_NAME: slot.PRODUCT_NAME,
-              PRODUCT_PIC: slot.PRODUCT_PIC,
-            };
-            //slotStates:["전체", "대기 중", "발송완료", "입고대기", "입고완료", "검수 중", "검수보류","검수합격", "배송 중", "거래실패"],
+            //slotStates:["전체", "발송대기", "발송완료", "입고대기", "입고완료", "검수 중", "검수보류","검수합격", "배송 중", "거래실패"],
             //INSPECTION_STATUS 0:검수 진행중, 1:검수 완료
             if(slot.INSPECTION_STATUS == null) 
             {
-              //STATUS Null일때 입고완료로 처리.
-              slot.strState = this.curFilter.slotStates[4];
+              //STATUS Null일때 발송대기로 처리.
+              slot.strState = this.curFilter.slotStates[1];
             }
             else if(slot.INSPECTION_STATUS == 0) //검수중
               slot.strState = this.curFilter.slotStates[5];
@@ -317,6 +319,7 @@ export default {
       this.curOrderIdx = idx;
       this.orderColumn = this.curFilter.orderColumn[idx];
 
+      //console.log("buyList.onOrderClicked.list: ", this.list);
       if(this.list != null && this.list.length > 0)
       {
         this.goToFirstPage();
@@ -333,36 +336,35 @@ export default {
       this.getList();
     },
 
-    onFinalizeClicked(buy_key, decision){
-      this.finalizeDecision = decision;
+    onFinalizeClicked(slot, decision){
       //console.log("onAcceptClicked().buy_key:", buy_key, "decision: ", decision);
       this.$axios.post(this.$store.getters.ServerUrl + '/mypage/buyList/finalize', {
-        BUY_KEY : buy_key,
+        tableName : slot.TABLE_NAME,
+        key : slot.BUY_KEY,
         decision: decision,
       })
       .then((result) => {
-        //console.log(result.data);
-        if(result.data[0] == 1)
+        console.log(result.data);
+        //if(result.data[0] == 1)
         {
-          if(this.finalizeDecision == 0)
-            alert("최종 구매 확정 하셨습니다. 감사합니다.");
+          if(decision == 0)
+            alert("구매 확정 하셨습니다. 감사합니다.");
           else
-            alert("최종 구매 취소 하셨습니다.");
+            alert("구매 취소 하셨습니다.");
 
           this.getBuyCounts();
           this.goToFirstPage();
           this.getListCount();
           this.getList();
         }
-        else
-        {
-          alert("알 수 없는 에러 발생. 다시 시도 해주세요.");
-        }
+        // else
+        // {
+        //   alert("알 수 없는 에러 발생. 다시 시도 해주세요.");
+        // }
       })
       .catch((error) => {
         console.log(error);
       });
-
     },
   },
 }

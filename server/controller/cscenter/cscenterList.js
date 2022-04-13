@@ -3,6 +3,7 @@ const { User } = require("../../models");
 const db = require("../../models");
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const moment = require('moment');
 
 async function totalcscenter(req, res, next){
     await db.sequelize
@@ -31,14 +32,17 @@ async function cscenter(req, res, next) {
                  ,CSCENTER_COMMENT
                  ,CSCENTER_COMMENT_WDATE
                 ,u.USER_KEY
-                 ,( select USER_ID from User where USER_KEY=c.USER_KEY) as USER_ID
+                 ,( select USER_NAME from User where USER_KEY=c.USER_KEY) as USER_NAME
             from Cscenter c
                      inner join User u on u.USER_KEY = c.USER_KEY `+
             'limit '+start+', '+end+';'
             ,{ type: Sequelize.QueryTypes.SELECT }
         )
         .then(result => {
-            console.log(result);
+            result.map(x=>{
+                console.log(x.CSCENTER_WDATE)
+                x.CSCENTER_WDATE=moment(x.CSCENTER_WDATE).format('YYYY-MM-DD HH:mm:ss')
+            })
             res.send(result);
         })
         .catch(err => console.log(err));
@@ -59,7 +63,7 @@ async function cscenterone(req, res, next) {
        ,CSCENTER_CONTENTS\n\
        ,CSCENTER_COMMENT\n\
        ,CSCENTER_COMMENT_WDATE\n\
-       ,( select USER_ID from User where USER_KEY=c.USER_KEY) as USER_ID\n\
+       ,( select USER_NAME from User where USER_KEY=c.USER_KEY) as USER_NAME\n\
    from Cscenter c\n\
    inner join User u on u.USER_KEY = c.USER_KEY\n\
              where c.CSCENTER_KEY="+sendCscenterKey+" and u.user_key="+receivedUserkey+";",

@@ -46,7 +46,7 @@ export default {
       type: Number,
       default: 0,
     },
-    POST_CONTENS:{
+    POST_CONTENTS:{
       type: String,
       default: "Lego Firehouse Headquarters",
     },
